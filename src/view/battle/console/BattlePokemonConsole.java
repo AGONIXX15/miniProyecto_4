@@ -2,10 +2,15 @@ package view.battle.console;
 
 import battle.BattleTrainer;
 import controllers.ControllerBattle;
+import exceptions.InvalidAttackSelectionException;
+import exceptions.InvalidPokemonSelectionException;
+import exceptions.NotInBattleException;
+import exceptions.PokemonWeakenedException;
 import models.Pokemon;
 import models.Trainer;
 import view.battle.ViewBattle;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class BattlePokemonConsole implements ViewBattle {
@@ -23,21 +28,37 @@ public class BattlePokemonConsole implements ViewBattle {
     public int choosePokemon(Trainer trainer) {
         Scanner sc = new Scanner(System.in);
         boolean condition;
-        int index;
+        int index =-1;
         do {
             PokemonMenu.showAllPokemonsAlive(trainer.team);
-            System.out.println(trainer.getNameTrainer() + " Escoje un pokemon de tu equipo para comenzar a luchar: "+ Colors.RESET);
+            System.out.println(Colors.WHITE_BOLD + trainer.getNameTrainer() + " Escoje un pokemon de tu equipo para comenzar a luchar: "+ Colors.RESET);
             String line = sc.nextLine();
-            if (!line.isEmpty()){
-                index = Integer.parseInt(line)-1;
-            } else {
-                index = -1;
+
+
+            try {
+                if (!line.isEmpty()){
+                    index = Integer.parseInt(line)-1;
+                } else {
+                    index = -1;
+
+                }
+                if (index < 0 || index >= trainer.team.length) {
+                    throw new InvalidPokemonSelectionException("⚠️ Índice fuera de rango. Ingresa un número válido.");
+                }
+
+                if(index >= 0 && !trainer.team[index].isAlive()){
+                    throw new PokemonWeakenedException("⚠️ Por favor, escoge un Pokémon que esté vivo!");
+                }
+            } catch (PokemonWeakenedException e) {
+                System.out.println(e.getMessage());
+            } catch (NumberFormatException e) {
+                System.out.println(Colors.RED + "⚠️ Entrada inválida. Ingresa solo números." + Colors.RESET);
+            } catch (InvalidPokemonSelectionException e) {
+                System.out.print(Colors.RED + e.getMessage() + Colors.RESET);
             }
 
             condition = !(index >= 0 && index < trainer.team.length && trainer.team[index].isAlive());
-            if(index >= 0 && !trainer.team[index].isAlive()){
-                System.out.println("⚠️Por Favor, escoje un pokemon que este vivo!");
-            }
+
         }while(condition);
         return index;
     }
@@ -49,30 +70,46 @@ public class BattlePokemonConsole implements ViewBattle {
             int indexPokemon2 = choosePokemon(controller.trainer2);
             controller.startCombat(indexPokemon1, indexPokemon2);
             do {
-                int index = (controller.getTurn()) ? selectAttack(controller.getPokemon1()): selectAttack(controller.getPokemon2());
-                controller.processAttack(index);
+                try {
+                    int index = (controller.getTurn()) ? selectAttack(controller.getPokemon1()) : selectAttack(controller.getPokemon2());
+                    controller.processAttack(index);
+                } catch (NotInBattleException e) {
+                    System.out.println(Colors.RED + "⚠️ " + e.getMessage() + Colors.RESET);
+                    break;
+                }
             }while(!controller.hasFinish());
         }while(!(BattleTrainer.trainerHasLost(controller.trainer1) ||  BattleTrainer.trainerHasLost(controller.trainer2)));
 
         if(BattleTrainer.trainerHasLost(controller.trainer1)) {
-            System.out.printf("gano %s", controller.trainer2.getNameTrainer());
+            System.out.printf(Colors.CYAN_BOLD + "Ha ganado el entrenador %s!!", controller.trainer2.getNameTrainer() + Colors.RESET);
         } else {
-            System.out.printf("gano %s", controller.trainer1.getNameTrainer());
+            System.out.printf(Colors.CYAN_BOLD + "Ha ganado el entrenador %s!!", controller.trainer1.getNameTrainer() + Colors.RESET);
         }
     }
 
     public int selectAttack(Pokemon pokemon) {
         Scanner sc = new Scanner(System.in);
         boolean condition = false;
-        int index;
+        int index = -1;
         System.out.printf(Colors.WHITE_BOLD + "\nTurno de %s%n" + Colors.RESET, controller.getTurn() ? controller.trainer1.getNameTrainer() : controller.trainer2.getNameTrainer());
         do {
             PokemonMenu.showPokemonAttacks(pokemon);
-            index = Integer.parseInt(sc.nextLine())-1;
-            condition = !(index >= 0 && index < pokemon.getAttacks().length);
-            if(condition){
-                System.out.println(Colors.RED+"⚠️Por favor ingresa uno de los ataques disponibles!"+Colors.RESET);
+
+            try{
+                index = Integer.parseInt(sc.nextLine())-1;
+                condition = !(index >= 0 && index < pokemon.getAttacks().length);
+                if(condition){
+                    throw new InvalidAttackSelectionException("⚠️Por favor ingresa uno de los ataques disponibles!");
+                }
+            } catch (NumberFormatException e){
+                System.out.println(Colors.RED + "⚠️ Entrada inválida. Ingresa solo números." + Colors.RESET);
+                condition = true;
+            } catch (InvalidAttackSelectionException e){
+                System.out.println(Colors.RED + e.getMessage() + Colors.RESET);
+                condition = true;
             }
+
+
         }while(condition);
         return index;
     }
