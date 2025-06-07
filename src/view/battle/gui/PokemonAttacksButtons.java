@@ -29,8 +29,6 @@ public class PokemonAttacksButtons extends JPanel {
                 }
 
                 touched = true;
-               // System.out.println("ataque escogido " + attacks[index] + " " + index);
-                // attack = index;
                 BattlePokemonGUI.getInstance().makeDamage(index);
                 touched = false;
             });
@@ -40,20 +38,5 @@ public class PokemonAttacksButtons extends JPanel {
 
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Pokemon Attacks");
-        frame.setSize(1000,1000);
-        frame.setLayout(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Attack []attacks = new Attack[]{
-                AttackFactory.VINE_WHIP, AttackFactory.SOLAR_BEAM, AttackFactory.RAZOR_LEAF, AttackFactory.TACKLE
-        };
-        PokemonAttacksButtons panel = new PokemonAttacksButtons(attacks);
-        panel.setBounds(100,100,300,300);
-        JLabel label = new JLabel("algo");
-        label.setBounds(200,500,100,100);
-        frame.add(panel);
-        frame.add(label);
-        frame.setVisible(true);
-    }
+
 }

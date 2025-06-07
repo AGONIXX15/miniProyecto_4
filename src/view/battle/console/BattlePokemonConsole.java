@@ -2,6 +2,7 @@ package view.battle.console;
 
 import battle.BattleTrainer;
 import controllers.ControllerBattle;
+import datos.HistoryData;
 import models.Pokemon;
 import models.Trainer;
 import view.battle.ViewBattle;
@@ -9,6 +10,7 @@ import view.battle.ViewBattle;
 import java.util.Scanner;
 
 public class BattlePokemonConsole implements ViewBattle {
+
     private final Scanner scanner = new Scanner(System.in);
     private ControllerBattle controller;
     public BattlePokemonConsole(ControllerBattle controller) {
@@ -58,7 +60,14 @@ public class BattlePokemonConsole implements ViewBattle {
             System.out.printf("gano %s", controller.trainer2.getNameTrainer());
         } else {
             System.out.printf("gano %s", controller.trainer1.getNameTrainer());
+
+
         }
+
+        System.out.println("\nQuieres ver el hististorial completo de la batalla?(s/n)");
+        String respuesta = scanner.nextLine();
+        if(respuesta.equals("s")){
+            System.out.println(controller.getHistory().ShowAllPila());}
     }
 
     public int selectAttack(Pokemon pokemon) {
