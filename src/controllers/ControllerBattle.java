@@ -1,5 +1,6 @@
 package controllers;
 
+import exceptions.NotInBattleException;
 import models.Pokemon;
 import models.Trainer;
 import view.battle.ViewBattle;
@@ -63,7 +64,7 @@ public class ControllerBattle {
         if(isInBattle){
             return combat.getPokemon1();
         }
-        throw new RuntimeException("no estan en batalla");
+        throw new NotInBattleException("No están en batalla");
     }
 
     // retorna el pokemon del entrenador 2
@@ -71,7 +72,7 @@ public class ControllerBattle {
         if(isInBattle){
             return combat.getPokemon2();
         }
-        throw new RuntimeException("no estan en batalla");
+        throw new NotInBattleException("No están en batalla");
     }
 
     // retorna el turno actual del combate
@@ -79,7 +80,7 @@ public class ControllerBattle {
         if(isInBattle){
             return combat.getTurn();
         }
-        throw new RuntimeException("no estan en batalla!");
+        throw new NotInBattleException("No están en batalla!");
     }
 
     // pregunta si el combate ya ha finalizado

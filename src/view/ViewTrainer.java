@@ -38,10 +38,12 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         tried = false;
         setTitle("Seleccionar Entrenadores");
 
+
         UIManager.put("OptionPane.messageFont", new Font("Arial", Font.BOLD, 16));
         UIManager.put("OptionPane.buttonFont", new Font("Arial", Font.PLAIN, 14));
-        UIManager.put("Button.background", new Color(205, 64, 64));
-        UIManager.put("Button.foreground", Color.WHITE);
+        UIManager.put("Button.background", new Color(120, 180, 240));
+        UIManager.put("Button.foreground", Color.BLACK);
+
 
         ImageIcon fondoIcon, fondoBotonSeleccionar, fondoBotonAsignar, fondoBotonBatalla;
 
