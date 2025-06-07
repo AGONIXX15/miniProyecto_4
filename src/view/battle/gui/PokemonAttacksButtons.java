@@ -16,12 +16,12 @@ public class PokemonAttacksButtons extends JPanel {
         grid.setHgap(10);
         this.touched = false;
         setLayout(new GridLayout(2,2));
-        for(int i = 0; i < attacks.length; i++) {
+        for(byte i = 0; i < attacks.length; i++) {
             JButton button = new JButton(String.format("%s", attacks[i].getName()));
             button.setFont(CustomFont.loadfont(20)); // Tamaño 16, negrita
             button.setForeground(Color.WHITE);                // Letras blancas
             button.setBackground(new Color(173, 216, 230));
-            int index = i;
+            byte index = i;
             button.setPreferredSize(new Dimension(150, 150));
             button.addActionListener(e -> {
                 if(touched){

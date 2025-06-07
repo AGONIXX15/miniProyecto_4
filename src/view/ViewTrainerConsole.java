@@ -46,7 +46,7 @@ public class ViewTrainerConsole implements ViewTrainerInterface {
 
                     Trainer trainer1 = ControllerTrainer.getInstance().trainer1;
                     Trainer trainer2 = ControllerTrainer.getInstance().trainer2;
-                    ControllerBattle controller = new ControllerBattle(trainer1, trainer2);
+                    ControllerBattle controller = new ControllerBattle(trainer1, trainer2, controllerTrainer.getRandom());
                     BattlePokemonConsole view = new BattlePokemonConsole(controller);
                     controller.setViewBattle(view);
                     controller.startBattle();
