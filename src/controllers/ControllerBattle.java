@@ -1,5 +1,6 @@
 package controllers;
 
+import datos.HistoryData;
 import models.Pokemon;
 import models.Trainer;
 import view.battle.ViewBattle;
@@ -10,7 +11,7 @@ public class ControllerBattle {
     private ViewBattle viewBattle;
     private boolean isInBattle = false;
     private Combat combat;
-
+public HistoryData history = new HistoryData();
     // constructor del controlador
     public ControllerBattle(Trainer trainer1, Trainer trainer2) {
         this.trainer1 = trainer1;
@@ -44,7 +45,7 @@ public class ControllerBattle {
     public void startCombat(int index1, int index2) {
         Pokemon pokemon1 = trainer1.getTeamArray()[index1];
         Pokemon pokemon2 = trainer2.getTeamArray()[index2];
-        this.combat = new Combat(pokemon1,pokemon2, this);
+        this.combat = new Combat(pokemon1,pokemon2, this,history);
         isInBattle = true;
     }
 
@@ -87,4 +88,7 @@ public class ControllerBattle {
         return combat.hasFinish();
     }
 
+    public HistoryData getHistory(){
+        return history;
+    }
 }

@@ -1,6 +1,7 @@
 package models;
 
 import controllers.ControllerBattle;
+import datos.HistoryData;
 
 public class Combat {
     // si turno es verdadera ataque el primer pokemon si no el segundo pokemon
@@ -8,12 +9,14 @@ public class Combat {
     private Pokemon pokemon1;
     private Pokemon pokemon2;
     private ControllerBattle controller;
+    public HistoryData history;
 
-    public Combat(Pokemon pokemon1, Pokemon pokemon2, ControllerBattle controller) {
+    public Combat(Pokemon pokemon1, Pokemon pokemon2, ControllerBattle controller,HistoryData history) {
         this.controller = controller;
         turn = pokemon1.getSpeed() >= pokemon2.getSpeed();
         this.pokemon1 = pokemon1;
         this.pokemon2 = pokemon2;
+        this.history = history;
     }
 
     public boolean getTurn() {
@@ -65,7 +68,9 @@ public class Combat {
         }
         int damage = (int) (advantage * attack.getPower());
         // le decimos al controlador que mande un mensaje hacia la interfaz
-        controller.sendMessage(String.format("%s realizo %s hacia %s con un daño de %d\n",trainerName, attack.getName(), pokemon2.getName(), damage));
+        String menssage = String.format("%s realizo %s hacia %s con un daño de %d\n",trainerName, attack.getName(), pokemon2.getName(), damage);
+        controller.sendMessage(menssage);
+        history.setPila(menssage);
         pokemon2.takeDamage(damage);
     }
 
@@ -74,5 +79,7 @@ public class Combat {
         return !(pokemon1.isAlive() && pokemon2.isAlive());
     }
 
-
+    public HistoryData getHistory(){
+        return history;
+    }
 }
