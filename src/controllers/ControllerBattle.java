@@ -1,20 +1,30 @@
 package controllers;
 
 import models.Pokemon;
+import models.Save;
 import models.Trainer;
 import view.battle.ViewBattle;
 import models.Combat;
+import view.utils.Pair;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 public class ControllerBattle {
     public Trainer trainer1, trainer2;
     private ViewBattle viewBattle;
     private boolean isInBattle = false;
     private Combat combat;
+    private Random random;
+    private Save save;
 
     // constructor del controlador
-    public ControllerBattle(Trainer trainer1, Trainer trainer2) {
+    public ControllerBattle(Trainer trainer1, Trainer trainer2, Pair<Random, Long> pairRandom) {
         this.trainer1 = trainer1;
         this.trainer2 = trainer2;
+        this.random = pairRandom.first;
+        save = new Save(trainer1.getNameTrainer(), trainer2.getNameTrainer(), pairRandom.second);
     }
 
     public void setViewBattle(ViewBattle viewBattle) {
@@ -53,7 +63,8 @@ public class ControllerBattle {
      *  deja que el combate se encargue de procesar el ataque ya que el maneja toda la logica
      *  sabe de quien es el turno por lo tanto procesara tal cual como se espera
      */
-    public void processAttack(int index){
+    public void processAttack(byte index){
+        save.saveAttack(index);
         combat.makeAttack(index);
     }
 
@@ -87,4 +98,11 @@ public class ControllerBattle {
         return combat.hasFinish();
     }
 
+    public void saveTurn(Pair<Byte, Byte> turn){
+        save.saveTurn(turn);
+    }
+
+    public void saveGame(File saveFile) throws IOException, ClassNotFoundException {
+        save.saveGame(saveFile);
+    }
 }

@@ -2,8 +2,11 @@ package controllers;
 
 import models.PokemonFactory;
 import models.Trainer;
-import view.ViewTrainer;
 import view.ViewTrainerInterface;
+import view.utils.Pair;
+
+import java.time.Instant;
+import java.util.Random;
 
 /**
  * @author Sebastian Devia
@@ -12,6 +15,8 @@ public class ControllerTrainer {
     public ViewTrainerInterface viewI;
     public Trainer trainer1, trainer2;
     private static ControllerTrainer instance;
+    private Random random;
+    private long seed;
 
     public ControllerTrainer() {
     }
@@ -24,8 +29,10 @@ public class ControllerTrainer {
     public void introducirTrainers(String nombre1, String nombre2) {
         trainer1 = new Trainer(nombre1, PokemonFactory.loadAvailablePokemons());
         trainer2 = new Trainer(nombre2, PokemonFactory.loadAvailablePokemons());
-        trainer1.randomTeam();
-        trainer2.randomTeam();
+        seed = Instant.now().toEpochMilli();
+        random = new Random(seed);
+        trainer1.randomTeam(random);
+        trainer2.randomTeam(random);
 
         this.viewI.mostrarMensaje("Entrenadores introducidos Correctamente.");
 
@@ -47,5 +54,9 @@ public class ControllerTrainer {
             instance = new ControllerTrainer();
         }
         return instance;
+    }
+
+    public Pair<Random, Long> getRandom() {
+        return new Pair<>(random, seed);
     }
 }
