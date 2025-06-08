@@ -54,12 +54,14 @@ public class ShowPokemons extends JScrollPane {
             JLabel infoLabel = new JLabel("Nombre: " + trainer.getTeamArray()[i].getName() + ", Tipo: " + trainer.getTeamArray()[i].getType() + ", Vida: " + trainer.getTeamArray()[i].getHealth());
             labelInfos[i] = infoLabel;
             infoLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+            infoLabel.setForeground(Color.BLACK);
             pokemonPanel.add(infoLabel, BorderLayout.CENTER);
 
 
             // Botón "Escoger"
-            JButton botonElegir = new JButton("Escoger");
-            botonElegir.setPreferredSize(new Dimension(100, 30));
+            JButton botonElegir = new JButton("Seleccionar");
+            botonElegir.setPreferredSize(new Dimension(110, 30));
+            botonElegir.setFont(CustomFont.loadfont(15));
             int index = i;
             botonElegir.addActionListener(e -> {
                 try {
@@ -99,4 +101,5 @@ public class ShowPokemons extends JScrollPane {
         }
         return choose;
     }
+
 }

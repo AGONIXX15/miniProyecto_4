@@ -120,7 +120,7 @@ public class Pokemon {
             BattlePokemonGUI.getInstance().sendMessage("El ataque ha sido efectivo!!");
         }
         int damage = (int) (advantage * attack.getPower());
-        BattlePokemonGUI.getInstance().sendMessage(String.format("%s realizo %s hacia %s con un daño de %d\n",name, attack.getName(), enemy.getName(), damage));
+        BattlePokemonGUI.getInstance().sendMessage(String.format("%s realizo %s hacia %s con un dano de %d\n",name, attack.getName(), enemy.getName(), damage));
         enemy.takeDamage(damage);
     }
 
