@@ -13,7 +13,7 @@ public class AttackFactory {
     public static final Attack TACKLE = new Attack("Placaje", (short) 20, TypeDamage.FISICO);
     public static final Attack DOUBLE_KICK = new Attack("Doble Patada", (short) 30, TypeDamage.FISICO);
     public static final Attack SHOCK_WAVE = new Attack("Onda Trueno", (short) 35, TypeDamage.ESPECIAL);
-    public static final Attack QUICK_ATTACK = new Attack("Ataque Rápido", (short) 30, TypeDamage.FISICO);
+    public static final Attack QUICK_ATTACK = new Attack("Ataque Rapido", (short) 30, TypeDamage.FISICO);
     public static final Attack LEAF_BLADE = new Attack("Cuchilla de Hoja", (short) 45, TypeDamage.FISICO);
     public static final Attack SLASH = new Attack("Cuchillada", (short) 40, TypeDamage.FISICO);
 

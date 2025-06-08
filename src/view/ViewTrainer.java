@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
+import utils.RoundedButton;
 import view.utils.Pokedex;
 import view.battle.gui.BattlePokemonGUI;
 
@@ -39,8 +40,8 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         setTitle("Seleccionar Entrenadores");
 
 
-        UIManager.put("OptionPane.messageFont", new Font("Arial", Font.BOLD, 16));
-        UIManager.put("OptionPane.buttonFont", new Font("Arial", Font.PLAIN, 14));
+        UIManager.put("OptionPane.messageFont", CustomFont.loadfont(20));
+        UIManager.put("OptionPane.buttonFont", CustomFont.loadfont(18));
         UIManager.put("Button.background", new Color(120, 180, 240));
         UIManager.put("Button.foreground", Color.BLACK);
 
@@ -104,9 +105,12 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         iniciarBatalla.setBounds(600, 700, 300, 60);
         fondo.add(iniciarBatalla);
 
-        cambiarConsola = new JButton("Cambiar Consola");
-        cambiarConsola.setBounds(5, 700, 300, 60);
-        cambiarConsola.setBackground(Color.CYAN);
+
+
+        RoundedButton cambiarConsola = new RoundedButton("Cambiar Vista", new Color(33, 150, 243), 30);
+        cambiarConsola.setFont(CustomFont.loadfont(35));
+        cambiarConsola.setBorder(BorderFactory.createLineBorder(new Color(0, 10, 94), 2));
+        cambiarConsola.setBounds(30, 720, 300, 60);
         fondo.add(cambiarConsola);
 
 
@@ -135,7 +139,7 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
                     mostrarEquipo();
                     return;
                 }
-                JOptionPane.showMessageDialog(null, "Por favor,Ingrese los entrenadores");
+                JOptionPane.showMessageDialog(null, "Por favor,Ingrese los entrenadores","Error", JOptionPane.ERROR_MESSAGE);
             }
 
         });
@@ -165,7 +169,8 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
                     return;
                 }
                 if (!tried) {
-                    JOptionPane.showMessageDialog(null, "Ingrese los entrenadores y asigne su equipo");
+                    JOptionPane.showMessageDialog(null, "Ingrese los entrenadores y asigne su equipo", "Error", JOptionPane.ERROR_MESSAGE);
+
                 }
 
             }
@@ -183,7 +188,7 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
             entreadoresIntroduccidos = true;
             return;
         }
-        JOptionPane.showMessageDialog(null, "Introduce los entrenadores");
+        JOptionPane.showMessageDialog(null, "Introduce los entrenadores","Error", JOptionPane.ERROR_MESSAGE);
         entreadoresIntroduccidos = false;
     }
 
@@ -197,13 +202,13 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
 
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         JLabel textoEquipo = new JLabel("Equipo de " +nombre1 + ":");
-        textoEquipo.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+        textoEquipo.setFont(CustomFont.loadfont(18));
         panel1.add(textoEquipo);
         for (Pokemon p : ControllerTrainer.getInstance().trainer1.getTeamArray()) {
             JPanel pokemonPanel = new JPanel(new BorderLayout());
             pokemonPanel.setBorder(BorderFactory.createLineBorder(Color.blue, 2)); // Borde negro
-            pokemonPanel.setBackground(Color.cyan); // Fondo blanco (opcional)
-            pokemonPanel.setPreferredSize(new Dimension(450, 70)); // Tamaño fijo opcional
+            pokemonPanel.setBackground(new Color(33, 150, 243));
+            pokemonPanel.setPreferredSize(new Dimension(470, 70));
 
             Integer id = Pokedex.pokedex.get(p.getName());
             if (id != null) {
@@ -219,8 +224,9 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
                 }
             }
 
-            JLabel infoLabel = new JLabel("Nombre: " + p.getName() + ", Tipo: " + p.getType() + ", Vida: " + p.getHealth()+", velocidad: "+p.getSpeed());
+            JLabel infoLabel = new JLabel("Nombre: " + p.getName() + " Tipo: " + p.getType() + " Vida: " + p.getHealth()+" Velocidad: "+p.getSpeed());
             infoLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+            infoLabel.setForeground(Color.BLACK);
             pokemonPanel.add(infoLabel, BorderLayout.CENTER);
 
             panel1.add(Box.createRigidArea(new Dimension(10, 3))); // Espaciado entre recuadros
@@ -231,13 +237,13 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         JPanel panel2 = new JPanel();
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
         JLabel textoEquipo2 = new JLabel("Equipo de " + nombre2+ ":");
-        textoEquipo2.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+        textoEquipo2.setFont(CustomFont.loadfont(18));
         panel2.add(textoEquipo2);
         for (Pokemon p : ControllerTrainer.getInstance().trainer2.getTeamArray()) {
             JPanel pokemonPanel = new JPanel(new BorderLayout());
             pokemonPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); // Borde negro
-            pokemonPanel.setBackground(new Color(205, 64, 64)); // Fondo blanco (opcional)
-            pokemonPanel.setPreferredSize(new Dimension(450, 70)); // Tamaño fijo opcional
+            pokemonPanel.setBackground(new Color(205, 64, 64));
+            pokemonPanel.setPreferredSize(new Dimension(470, 70));
 
             Integer id = Pokedex.pokedex.get(p.getName());
             if (id != null) {
@@ -253,8 +259,9 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
                 }
             }
 
-            JLabel infoLabel = new JLabel("Nombre: " + p.getName() + ", Tipo: " + p.getType() + ", Vida: " + p.getHealth()+", velocidad: "+p.getSpeed());
+            JLabel infoLabel = new JLabel("Nombre: " + p.getName() + " Tipo: " + p.getType() + " Vida: " + p.getHealth()+" Velocidad: "+ p.getSpeed());
             infoLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+            infoLabel.setForeground(Color.BLACK);
             pokemonPanel.add(infoLabel, BorderLayout.CENTER);
 
             panel2.add(Box.createRigidArea(new Dimension(10, 3))); // Espaciado entre recuadros
