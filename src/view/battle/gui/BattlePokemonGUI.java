@@ -128,6 +128,7 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
             if(option == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
                 if (file.exists()) {
+
                     try {
                         Save save = Save.loadSave(file);
                         Triple<Trainer, Trainer, Random> gameTriple = save.getTrainers();
@@ -194,9 +195,6 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         //reproducir sonido
-        sound = new ReproduceSound();
-        sound.loadSound("sounds/Voicy_Pokemon GO OST_ Battle.wav");
-        sound.loopSound();
     }
 
     @Override

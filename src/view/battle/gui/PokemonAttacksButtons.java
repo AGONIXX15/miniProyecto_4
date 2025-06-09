@@ -23,9 +23,6 @@ public class PokemonAttacksButtons extends JPanel {
             button.setFont(CustomFont.loadfont(20));
             button.setBorder(BorderFactory.createLineBorder(new Color(56, 142, 60), 2));
 
-
-
-
             byte index = i;
             button.setPreferredSize(new Dimension(150, 150));
             button.addActionListener(e -> {

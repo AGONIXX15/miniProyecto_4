@@ -69,6 +69,7 @@ public class BattlePokemonConsole implements ViewBattle {
             int indexPokemon2 = choosePokemon(controller.trainer2);
             controller.startCombat(indexPokemon1, indexPokemon2);
             do {
+
                 try {
                     byte index = (controller.getTurn()) ? selectAttack(controller.getPokemon1()) : selectAttack(controller.getPokemon2());
                     controller.processAttack(index);
@@ -106,6 +107,7 @@ public class BattlePokemonConsole implements ViewBattle {
             } catch (InvalidAttackSelectionException e){
                 System.out.println(Colors.RED + e.getMessage() + Colors.RESET);
                 condition = true;
+
             }
         }while(condition);
         return index;
