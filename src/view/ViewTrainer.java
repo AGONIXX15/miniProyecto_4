@@ -159,9 +159,10 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
                     reproduceSound.playSound();
                     Timer t = new Timer(1000, event -> {
                         setVisible(false);
-                        ControllerBattle controller = new ControllerBattle(ControllerTrainer.getInstance().trainer1, ControllerTrainer.getInstance().trainer2);
+                        ControllerBattle controller = new ControllerBattle(ControllerTrainer.getInstance().trainer1, ControllerTrainer.getInstance().trainer2, ControllerTrainer.getInstance().getRandom());
                         BattlePokemonGUI view = new BattlePokemonGUI(controller);
                         controller.setViewBattle(view);
+                        dispose();
                         controller.startBattle();
                     });
                     t.setRepeats(false);

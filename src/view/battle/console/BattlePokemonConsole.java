@@ -10,7 +10,6 @@ import models.Pokemon;
 import models.Trainer;
 import view.battle.ViewBattle;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class BattlePokemonConsole implements ViewBattle {
@@ -87,7 +86,7 @@ public class BattlePokemonConsole implements ViewBattle {
         }
     }
 
-    public int selectAttack(Pokemon pokemon) {
+    public byte selectAttack(Pokemon pokemon) {
         Scanner sc = new Scanner(System.in);
         boolean condition = false;
         int index = -1;
@@ -108,8 +107,6 @@ public class BattlePokemonConsole implements ViewBattle {
                 System.out.println(Colors.RED + e.getMessage() + Colors.RESET);
                 condition = true;
             }
-
-
         }while(condition);
         return index;
     }
