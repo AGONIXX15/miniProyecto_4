@@ -85,8 +85,7 @@ public class Trainer {
         return true;
     }
 
-    public void randomTeam() {
-        Random r = new Random();
+    public void randomTeam(Random r) {
         int count = 0;
 
         while (count < 3) {
