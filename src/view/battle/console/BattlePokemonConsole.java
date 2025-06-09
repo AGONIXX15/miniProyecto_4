@@ -70,7 +70,7 @@ public class BattlePokemonConsole implements ViewBattle {
             controller.startCombat(indexPokemon1, indexPokemon2);
             do {
                 try {
-                    int index = (controller.getTurn()) ? selectAttack(controller.getPokemon1()) : selectAttack(controller.getPokemon2());
+                    byte index = (controller.getTurn()) ? selectAttack(controller.getPokemon1()) : selectAttack(controller.getPokemon2());
                     controller.processAttack(index);
                 } catch (NotInBattleException e) {
                     System.out.println(Colors.RED + "⚠️ " + e.getMessage() + Colors.RESET);
@@ -89,13 +89,13 @@ public class BattlePokemonConsole implements ViewBattle {
     public byte selectAttack(Pokemon pokemon) {
         Scanner sc = new Scanner(System.in);
         boolean condition = false;
-        int index = -1;
+        byte index = -1;
         System.out.printf(Colors.WHITE_BOLD + "\nTurno de %s%n" + Colors.RESET, controller.getTurn() ? controller.trainer1.getNameTrainer() : controller.trainer2.getNameTrainer());
         do {
             PokemonMenu.showPokemonAttacks(pokemon);
 
             try{
-                index = Integer.parseInt(sc.nextLine())-1;
+                index = (byte)(Integer.parseInt(sc.nextLine())-1);
                 condition = !(index >= 0 && index < pokemon.getAttacks().length);
                 if(condition){
                     throw new InvalidAttackSelectionException("⚠️Por favor ingresa uno de los ataques disponibles!");

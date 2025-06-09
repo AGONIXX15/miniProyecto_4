@@ -128,15 +128,12 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
             if(option == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
                 if (file.exists()) {
-                    int answer = JOptionPane.showConfirmDialog(null, "el archivo ya existe, deseas sobreescribir el archivo", "confirmar sobreescritura", JOptionPane.YES_NO_OPTION);
-                    if (answer != JOptionPane.YES_OPTION) {
-                        JOptionPane.showMessageDialog(null, "operacion cancelada por el usuario");
-                        return;
-                    }
                     try {
                         Save save = Save.loadSave(file);
                         Triple<Trainer, Trainer, Random> gameTriple = save.getTrainers();
-                        ControllerBattle controller = new ControllerBattle(gameTriple.first, gameTriple.second, new Pair<>(gameTriple.third, save.getSeed()));
+                        System.out.println(gameTriple.first.toString());
+                        System.out.println(gameTriple.second.toString());
+                        ControllerBattle controller = new ControllerBattle(gameTriple.first, gameTriple.second, gameTriple.third, save);
                         BattlePokemonGUI view = new BattlePokemonGUI(controller);
                         controller.setViewBattle(view);
                         sound.stopSound();
@@ -288,7 +285,7 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
         messageBattle.repaint();
     }
 
-    public void makeDamage(int index) {
+    public void makeDamage(byte index) {
         try {
             boolean tempTurn = controllerBattle.getTurn();
             controllerBattle.processAttack(index);

@@ -28,6 +28,13 @@ public class ControllerBattle {
         save = new Save(trainer1.getNameTrainer(), trainer2.getNameTrainer(), pairRandom.second);
     }
 
+    public ControllerBattle(Trainer trainer1, Trainer trainer2,Random rand, Save save) {
+        this.trainer1 = trainer1;
+        this.trainer2 = trainer2;
+        this.random = rand;
+        this.save = save;
+    }
+
     public void setViewBattle(ViewBattle viewBattle) {
         this.viewBattle = viewBattle;
     }

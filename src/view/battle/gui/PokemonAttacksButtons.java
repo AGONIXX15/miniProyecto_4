@@ -18,7 +18,7 @@ public class PokemonAttacksButtons extends JPanel {
         grid.setHgap(10);
         this.touched = false;
         setLayout(new GridLayout(2, 2, 10, 10));
-        for(int i = 0; i < attacks.length; i++) {
+        for(byte i = 0; i < attacks.length; i++) {
             RoundedButton button = new RoundedButton(attacks[i].getName(), new Color(200, 230, 201), 30);
             button.setFont(CustomFont.loadfont(20));
             button.setBorder(BorderFactory.createLineBorder(new Color(56, 142, 60), 2));
@@ -26,7 +26,7 @@ public class PokemonAttacksButtons extends JPanel {
 
 
 
-            int index = i;
+            byte index = i;
             button.setPreferredSize(new Dimension(150, 150));
             button.addActionListener(e -> {
                 if(touched){

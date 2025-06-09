@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -107,5 +108,9 @@ public class Trainer {
 
     public Pokemon[] getTeamArray() {
         return team;
+    }
+
+    public String toString(){
+        return String.format("Trainer(name=%s,pokemons=%s)", nameTrainer, Arrays.toString(pokemons));
     }
 }
