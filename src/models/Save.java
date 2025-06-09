@@ -53,7 +53,6 @@ public class Save implements Serializable {
             Pokemon pokemon1 = trainer1.getTeamArray()[turnPair.first];
             Pokemon pokemon2 = trainer2.getTeamArray()[turnPair.second];
             boolean turn = pokemon1.getSpeed() >= pokemon2.getSpeed();
-
             while(pokemon1.isAlive() && pokemon2.isAlive() && iteratorAttack.hasNext()){
                     if(turn){
                         pokemon1.makeDamage(pokemon2, pokemon1.getAttacks()[iteratorAttack.next()]);
@@ -63,6 +62,7 @@ public class Save implements Serializable {
                     turn = !turn;
                 }
             }
+
         return new Triple<Trainer, Trainer, Random>(trainer1, trainer2, rand);
     }
 

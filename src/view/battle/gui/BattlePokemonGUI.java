@@ -209,14 +209,17 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
         if (BattleTrainer.trainerHasLost(controllerBattle.trainer1)) {
             JOptionPane.showMessageDialog(null, String.format("El entrenador %s ha GANADO!!", controllerBattle.trainer2.getNameTrainer()));
             setVisible(false);
+            ShowHistory.showHistoryGUI(controllerBattle);
             sound.stopSound();
-            System.exit(0);
+            this.dispose();
         }
         if (BattleTrainer.trainerHasLost(controllerBattle.trainer2)) {
             JOptionPane.showMessageDialog(null, String.format("El entrenador %s ha GANADO!!", controllerBattle.trainer1.getNameTrainer()));
             setVisible(false);
+            ShowHistory.showHistoryGUI(controllerBattle);
             sound.stopSound();
-            System.exit(0);
+            this.dispose();
+
         }
         ((ShowPokemons) choose_menu.getComponent(0)).update();
         ((ShowPokemons) choose_menu.getComponent(1)).update();

@@ -1,5 +1,6 @@
 package controllers;
 
+import datos.HistoryData;
 import exceptions.NotInBattleException;
 import models.Pokemon;
 import models.Save;
@@ -19,6 +20,7 @@ public class ControllerBattle {
     private Combat combat;
     private Random random;
     private Save save;
+    private HistoryData history;
 
     // constructor del controlador
     public ControllerBattle(Trainer trainer1, Trainer trainer2, Pair<Random, Long> pairRandom) {
@@ -61,7 +63,7 @@ public class ControllerBattle {
     public void startCombat(int index1, int index2) {
         Pokemon pokemon1 = trainer1.getTeamArray()[index1];
         Pokemon pokemon2 = trainer2.getTeamArray()[index2];
-        this.combat = new Combat(pokemon1,pokemon2, this);
+        this.combat = new Combat(pokemon1,pokemon2, this,history);
         isInBattle = true;
     }
 
@@ -111,5 +113,9 @@ public class ControllerBattle {
 
     public void saveGame(File saveFile) throws IOException, ClassNotFoundException {
         save.saveGame(saveFile);
+    }
+
+    public HistoryData getHistory(){
+        return combat.getHistory();
     }
 }

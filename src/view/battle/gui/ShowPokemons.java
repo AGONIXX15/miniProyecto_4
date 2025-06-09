@@ -57,6 +57,7 @@ public class ShowPokemons extends JScrollPane {
             infoLabel.setForeground(Color.BLACK);
             pokemonPanel.add(infoLabel, BorderLayout.CENTER);
 
+
             // Botón "Escoger"
             JButton botonElegir = new JButton("Escoger");
             botonElegir.setPreferredSize(new Dimension(100, 30));
@@ -99,4 +100,5 @@ public class ShowPokemons extends JScrollPane {
         }
         return choose;
     }
+
 }

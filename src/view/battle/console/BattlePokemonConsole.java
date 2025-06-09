@@ -6,6 +6,7 @@ import exceptions.InvalidAttackSelectionException;
 import exceptions.InvalidPokemonSelectionException;
 import exceptions.NotInBattleException;
 import exceptions.PokemonWeakenedException;
+import datos.HistoryData;
 import models.Pokemon;
 import models.Trainer;
 import view.battle.ViewBattle;
@@ -13,6 +14,7 @@ import view.battle.ViewBattle;
 import java.util.Scanner;
 
 public class BattlePokemonConsole implements ViewBattle {
+
     private final Scanner scanner = new Scanner(System.in);
     private ControllerBattle controller;
     public BattlePokemonConsole(ControllerBattle controller) {
@@ -85,6 +87,11 @@ public class BattlePokemonConsole implements ViewBattle {
         } else {
             System.out.printf(Colors.CYAN_BOLD + "Ha ganado el entrenador %s!!", controller.trainer1.getNameTrainer() + Colors.RESET);
         }
+
+        System.out.println("\nQuieres ver el hististorial completo de la batalla?(s/n)");
+        String respuesta = scanner.nextLine();
+        if(respuesta.equals("s")){
+            System.out.println(controller.getHistory().ShowAllPila());}
     }
 
     public byte selectAttack(Pokemon pokemon) {
@@ -107,8 +114,9 @@ public class BattlePokemonConsole implements ViewBattle {
             } catch (InvalidAttackSelectionException e){
                 System.out.println(Colors.RED + e.getMessage() + Colors.RESET);
                 condition = true;
-
             }
+
+
         }while(condition);
         return index;
     }

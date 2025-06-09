@@ -22,7 +22,6 @@ public class PokemonAttacksButtons extends JPanel {
             RoundedButton button = new RoundedButton(attacks[i].getName(), new Color(200, 230, 201), 30);
             button.setFont(CustomFont.loadfont(20));
             button.setBorder(BorderFactory.createLineBorder(new Color(56, 142, 60), 2));
-
             byte index = i;
             button.setPreferredSize(new Dimension(150, 150));
             button.addActionListener(e -> {
@@ -31,8 +30,6 @@ public class PokemonAttacksButtons extends JPanel {
                 }
 
                 touched = true;
-                // System.out.println("ataque escogido " + attacks[index] + " " + index);
-                // attack = index;
                 BattlePokemonGUI.getInstance().makeDamage(index);
                 touched = false;
             });
