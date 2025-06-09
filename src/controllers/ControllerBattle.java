@@ -20,7 +20,7 @@ public class ControllerBattle {
     private Combat combat;
     private Random random;
     private Save save;
-    private HistoryData history;
+    private HistoryData history = new HistoryData();
 
     // constructor del controlador
     public ControllerBattle(Trainer trainer1, Trainer trainer2, Pair<Random, Long> pairRandom) {
@@ -34,6 +34,7 @@ public class ControllerBattle {
         this.trainer1 = trainer1;
         this.trainer2 = trainer2;
         this.random = rand;
+        this.save = save;
     }
 
     public void setViewBattle(ViewBattle viewBattle) {
