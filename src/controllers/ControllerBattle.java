@@ -1,28 +1,39 @@
 package controllers;
 
 import datos.HistoryData;
+import exceptions.NotInBattleException;
 import models.Pokemon;
+import models.Save;
 import models.Trainer;
 import view.battle.ViewBattle;
 import models.Combat;
+import view.utils.Pair;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 public class ControllerBattle {
     public Trainer trainer1, trainer2;
     private ViewBattle viewBattle;
     private boolean isInBattle = false;
     private Combat combat;
-public HistoryData history = new HistoryData();
+    private Random random;
+    private Save save;
+    private HistoryData history;
+
     // constructor del controlador
-    public ControllerBattle(Trainer trainer1, Trainer trainer2) {
+    public ControllerBattle(Trainer trainer1, Trainer trainer2, Pair<Random, Long> pairRandom) {
         this.trainer1 = trainer1;
         this.trainer2 = trainer2;
+        this.random = pairRandom.first;
+        save = new Save(trainer1.getNameTrainer(), trainer2.getNameTrainer(), pairRandom.second);
     }
 
     public ControllerBattle(Trainer trainer1, Trainer trainer2,Random rand, Save save) {
         this.trainer1 = trainer1;
         this.trainer2 = trainer2;
         this.random = rand;
-        this.save = save;
     }
 
     public void setViewBattle(ViewBattle viewBattle) {
@@ -61,7 +72,8 @@ public HistoryData history = new HistoryData();
      *  deja que el combate se encargue de procesar el ataque ya que el maneja toda la logica
      *  sabe de quien es el turno por lo tanto procesara tal cual como se espera
      */
-    public void processAttack(int index){
+    public void processAttack(byte index){
+        save.saveAttack(index);
         combat.makeAttack(index);
     }
 
@@ -71,7 +83,7 @@ public HistoryData history = new HistoryData();
         if(isInBattle){
             return combat.getPokemon1();
         }
-        throw new RuntimeException("no estan en batalla");
+        throw new NotInBattleException("No están en batalla");
     }
 
     // retorna el pokemon del entrenador 2
@@ -79,7 +91,7 @@ public HistoryData history = new HistoryData();
         if(isInBattle){
             return combat.getPokemon2();
         }
-        throw new RuntimeException("no estan en batalla");
+        throw new NotInBattleException("No están en batalla");
     }
 
     // retorna el turno actual del combate
@@ -87,7 +99,7 @@ public HistoryData history = new HistoryData();
         if(isInBattle){
             return combat.getTurn();
         }
-        throw new RuntimeException("no estan en batalla!");
+        throw new NotInBattleException("No están en batalla!");
     }
 
     // pregunta si el combate ya ha finalizado
@@ -95,7 +107,15 @@ public HistoryData history = new HistoryData();
         return combat.hasFinish();
     }
 
+    public void saveTurn(Pair<Byte, Byte> turn){
+        save.saveTurn(turn);
+    }
+
+    public void saveGame(File saveFile) throws IOException, ClassNotFoundException {
+        save.saveGame(saveFile);
+    }
+
     public HistoryData getHistory(){
-        return history;
+        return combat.getHistory();
     }
 }

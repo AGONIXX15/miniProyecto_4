@@ -192,7 +192,7 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
         messageBattle.repaint();
     }
 
-    public void makeDamage(int index) {
+    public void makeDamage(byte index) {
         try {
             boolean tempTurn = controllerBattle.getTurn();
             controllerBattle.processAttack(index);
