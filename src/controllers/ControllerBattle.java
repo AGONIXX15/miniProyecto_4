@@ -1,5 +1,6 @@
 package controllers;
 
+import exceptions.NotInBattleException;
 import models.Pokemon;
 import models.Save;
 import models.Trainer;
@@ -25,6 +26,12 @@ public class ControllerBattle {
         this.trainer2 = trainer2;
         this.random = pairRandom.first;
         save = new Save(trainer1.getNameTrainer(), trainer2.getNameTrainer(), pairRandom.second);
+    }
+
+    public ControllerBattle(Trainer trainer1, Trainer trainer2,Random rand, Save save) {
+        this.trainer1 = trainer1;
+        this.trainer2 = trainer2;
+        this.random = rand;
     }
 
     public void setViewBattle(ViewBattle viewBattle) {
@@ -74,7 +81,7 @@ public class ControllerBattle {
         if(isInBattle){
             return combat.getPokemon1();
         }
-        throw new RuntimeException("no estan en batalla");
+        throw new NotInBattleException("No están en batalla");
     }
 
     // retorna el pokemon del entrenador 2
@@ -82,7 +89,7 @@ public class ControllerBattle {
         if(isInBattle){
             return combat.getPokemon2();
         }
-        throw new RuntimeException("no estan en batalla");
+        throw new NotInBattleException("No están en batalla");
     }
 
     // retorna el turno actual del combate
@@ -90,7 +97,7 @@ public class ControllerBattle {
         if(isInBattle){
             return combat.getTurn();
         }
-        throw new RuntimeException("no estan en batalla!");
+        throw new NotInBattleException("No están en batalla!");
     }
 
     // pregunta si el combate ya ha finalizado

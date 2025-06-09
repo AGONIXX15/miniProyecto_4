@@ -1,6 +1,7 @@
 package models;
 
 import controllers.ControllerBattle;
+import view.battle.console.Colors;
 
 public class Combat {
     // si turno es verdadera ataque el primer pokemon si no el segundo pokemon
@@ -65,7 +66,7 @@ public class Combat {
         }
         int damage = (int) (advantage * attack.getPower());
         // le decimos al controlador que mande un mensaje hacia la interfaz
-        controller.sendMessage(String.format("%s realizo %s hacia %s con un daño de %d\n",trainerName, attack.getName(), pokemon2.getName(), damage));
+        controller.sendMessage(String.format("%s Ha realizado: %s hacia %s con un dano de %d\n",trainerName, attack.getName(), pokemon2.getName(), damage));
         pokemon2.takeDamage(damage);
     }
 

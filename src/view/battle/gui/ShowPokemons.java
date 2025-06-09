@@ -1,5 +1,6 @@
 package view.battle.gui;
 
+import exceptions.PokemonWeakenedException;
 import models.Trainer;
 import utils.CustomFont;
 import view.utils.Pokedex;
@@ -30,8 +31,9 @@ public class ShowPokemons extends JScrollPane {
             JPanel pokemonPanel = new JPanel(new BorderLayout());
 
             pokemonPanel.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
-            pokemonPanel.setBackground(Color.cyan);
+            pokemonPanel.setBackground(new Color(178, 235, 242));
             pokemonPanel.setPreferredSize(new Dimension(450, 80));
+            pokemonPanel.setBorder(BorderFactory.createLineBorder(new Color(33, 150, 243), 2));
 
             // Imagen desde Pokedex
             Integer id = Pokedex.pokedex.get(trainer.getTeamArray()[i].getName());
@@ -52,6 +54,7 @@ public class ShowPokemons extends JScrollPane {
             JLabel infoLabel = new JLabel("Nombre: " + trainer.getTeamArray()[i].getName() + ", Tipo: " + trainer.getTeamArray()[i].getType() + ", Vida: " + trainer.getTeamArray()[i].getHealth());
             labelInfos[i] = infoLabel;
             infoLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
+            infoLabel.setForeground(Color.BLACK);
             pokemonPanel.add(infoLabel, BorderLayout.CENTER);
 
             // Botón "Escoger"
@@ -59,12 +62,15 @@ public class ShowPokemons extends JScrollPane {
             botonElegir.setPreferredSize(new Dimension(100, 30));
             byte index = i;
             botonElegir.addActionListener(e -> {
-                if(trainer.getTeamArray()[index].isAlive() == false){
-                    JOptionPane.showMessageDialog(null, "no se puede escoger a un pokemon muerto escoge a uno de nuevo");
-                    return;
+                try {
+                    if (!trainer.getTeamArray()[index].isAlive()) {
+                        throw new PokemonWeakenedException("No se puede escoger un Pokémon muerto. Escoge uno de nuevo.");
+                    }
+                    this.choose = index;
+                    BattlePokemonGUI.getInstance().chooseTrainerPokemon();
+                } catch (PokemonWeakenedException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-                this.choose = index;
-                BattlePokemonGUI.getInstance().chooseTrainerPokemon();
             });
             pokemonPanel.add(botonElegir, BorderLayout.EAST);
 

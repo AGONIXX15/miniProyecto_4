@@ -11,7 +11,7 @@ public class PokemonStatusBar extends JPanel {
     // para tener en cuenta la vida antes de recibir daño esto para hacer un efecto
     private int lastHp;
     // variable booleana que sirve como flag para mostrar el rastro
-    private boolean showTrail; // variab
+    private boolean showTrail;
 
     int width = 200;
     int height = 40;
@@ -80,14 +80,4 @@ public class PokemonStatusBar extends JPanel {
         }
     }
 
-    public static void main(String []args){
-        JFrame frame = new JFrame("Pokemon Status Bar");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(230,120);
-        frame.setLocationRelativeTo(null);
-        PokemonStatusBar bar = new PokemonStatusBar("pikachu", 100, 100);
-        frame.add(bar);
-        bar.setHp(50);
-        frame.setVisible(true);
-    }
 }

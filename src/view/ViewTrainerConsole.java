@@ -4,6 +4,7 @@ import controllers.ControllerBattle;
 import controllers.ControllerTrainer;
 import models.Trainer;
 import view.battle.console.BattlePokemonConsole;
+import view.battle.console.Colors;
 
 import java.util.Scanner;
 
@@ -20,13 +21,13 @@ public class ViewTrainerConsole implements ViewTrainerInterface {
     public void mostrarMenu() {
         int opcion;
         do {
-            System.out.println("\n=== MENÚ ===");
+            System.out.println(Colors.WHITE_BOLD + "\n=== MENÚ ===");
             System.out.println("1. Ingresar Entrenadores");
-            System.out.println("2.Ver Equipo");
+            System.out.println("2. Ver Equipo");
             System.out.println("3. Iniciar Batalla");
-            System.out.println("4.cambiar de vista");
+            System.out.println("4. cambiar de vista");
             System.out.println("5. Salir");
-            System.out.print("Seleccione una opción: ");
+            System.out.print("Seleccione una opción: " + Colors.RESET);
 
             opcion = sc.nextInt();
             sc.nextLine(); // para limpiar el buffer
@@ -59,11 +60,12 @@ public class ViewTrainerConsole implements ViewTrainerInterface {
                     return;
                 case 5:
                     System.out.println("saliendo");
+                    System.exit(0);
                     return;
                 default:
                     System.out.println("Opción no válida. Intente de nuevo.");
             }
-        } while (opcion != 4);
+        } while (opcion != 5);
     }
 
     @Override

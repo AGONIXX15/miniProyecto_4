@@ -47,12 +47,14 @@ public class Save implements Serializable {
         trainer2.randomTeam(rand);
         // simular el combate
         ListIterator<Byte> iteratorAttack = attacks.listIterator();
+        System.out.println(turns.toString());
+        System.out.println(attacks.toString());
         for(Pair<Byte, Byte> turnPair: turns){
             Pokemon pokemon1 = trainer1.getTeamArray()[turnPair.first];
             Pokemon pokemon2 = trainer2.getTeamArray()[turnPair.second];
             boolean turn = pokemon1.getSpeed() >= pokemon2.getSpeed();
-            while(pokemon1.isAlive() && pokemon2.isAlive()){
-                while(iteratorAttack.hasNext()){
+
+            while(pokemon1.isAlive() && pokemon2.isAlive() && iteratorAttack.hasNext()){
                     if(turn){
                         pokemon1.makeDamage(pokemon2, pokemon1.getAttacks()[iteratorAttack.next()]);
                     } else {
@@ -61,7 +63,6 @@ public class Save implements Serializable {
                     turn = !turn;
                 }
             }
-        }
         return new Triple<Trainer, Trainer, Random>(trainer1, trainer2, rand);
     }
 

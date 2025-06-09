@@ -2,6 +2,7 @@ package view.battle.gui;
 
 import battle.BattleTrainer;
 import controllers.ControllerBattle;
+import exceptions.NotInBattleException;
 import models.Pokemon;
 import models.Save;
 import models.Trainer;
@@ -87,6 +88,7 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
         buttonsPanel.add(p2, "vacio");
         cards_buttons.show(buttonsPanel, "vacio");
         buttonsPanel.setVisible(true);
+        buttonsPanel.setOpaque(false);
 
 
         mainPanel.add(choose_menu, Integer.valueOf(1));
@@ -126,15 +128,13 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
             if(option == JFileChooser.APPROVE_OPTION) {
                 File file = chooser.getSelectedFile();
                 if (file.exists()) {
-                    int answer = JOptionPane.showConfirmDialog(null, "el archivo ya existe, deseas sobreescribir el archivo", "confirmar sobreescritura", JOptionPane.YES_NO_OPTION);
-                    if (answer != JOptionPane.YES_OPTION) {
-                        JOptionPane.showMessageDialog(null, "operacion cancelada por el usuario");
-                        return;
-                    }
+
                     try {
                         Save save = Save.loadSave(file);
                         Triple<Trainer, Trainer, Random> gameTriple = save.getTrainers();
-                        ControllerBattle controller = new ControllerBattle(gameTriple.first, gameTriple.second, new Pair<>(gameTriple.third, save.getSeed()));
+                        System.out.println(gameTriple.first.toString());
+                        System.out.println(gameTriple.second.toString());
+                        ControllerBattle controller = new ControllerBattle(gameTriple.first, gameTriple.second, gameTriple.third, save);
                         BattlePokemonGUI view = new BattlePokemonGUI(controller);
                         controller.setViewBattle(view);
                         sound.stopSound();
@@ -207,13 +207,13 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
     public void chooseAgain() {
         removeThings();
         if (BattleTrainer.trainerHasLost(controllerBattle.trainer1)) {
-            JOptionPane.showMessageDialog(null, String.format("gano el entrenador %s", controllerBattle.trainer2.getNameTrainer()));
+            JOptionPane.showMessageDialog(null, String.format("El entrenador %s ha GANADO!!", controllerBattle.trainer2.getNameTrainer()));
             setVisible(false);
             sound.stopSound();
             System.exit(0);
         }
         if (BattleTrainer.trainerHasLost(controllerBattle.trainer2)) {
-            JOptionPane.showMessageDialog(null, String.format("gano el entrenador %s", controllerBattle.trainer1.getNameTrainer()));
+            JOptionPane.showMessageDialog(null, String.format("El entrenador %s ha GANADO!!", controllerBattle.trainer1.getNameTrainer()));
             setVisible(false);
             sound.stopSound();
             System.exit(0);
@@ -231,7 +231,11 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
     }
 
     public void updateLabel() {
-        turnoLabel.setText(String.format("turno de: %s", (controllerBattle.getTurn()) ? controllerBattle.trainer1.getNameTrainer() : controllerBattle.trainer2.getNameTrainer()));
+        try{
+            turnoLabel.setText(String.format("turno de: %s", (controllerBattle.getTurn()) ? controllerBattle.trainer1.getNameTrainer() : controllerBattle.trainer2.getNameTrainer()));
+        } catch (NotInBattleException e) {
+            JOptionPane.showMessageDialog(this, "No hay una batalla activa.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     public void chooseTrainerPokemon() {
@@ -255,16 +259,20 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
     }
 
     public void pokemonBars() {
-        Pokemon pokemon1 = controllerBattle.getPokemon1();
-        Pokemon pokemon2 = controllerBattle.getPokemon2();
-        bar1 = new PokemonStatusBar(pokemon1.getName(), pokemon1.getHealth(), pokemon1.getHealthMax());
-        bar1.setBounds(1000, 100, 300, 80);
-        bar2 = new PokemonStatusBar(pokemon2.getName(), pokemon2.getHealth(), pokemon2.getHealthMax());
-        bar2.setBounds(150, 400, 300, 80);
+        try {
+            Pokemon pokemon1 = controllerBattle.getPokemon1();
+            Pokemon pokemon2 = controllerBattle.getPokemon2();
+            bar1 = new PokemonStatusBar(pokemon1.getName(), pokemon1.getHealth(), pokemon1.getHealthMax());
+            bar1.setBounds(1000, 100, 300, 80);
+            bar2 = new PokemonStatusBar(pokemon2.getName(), pokemon2.getHealth(), pokemon2.getHealthMax());
+            bar2.setBounds(150, 400, 300, 80);
 
 
-        mainPanel.add(bar1, Integer.valueOf(2));
-        mainPanel.add(bar2, Integer.valueOf(2));
+            mainPanel.add(bar1, Integer.valueOf(2));
+            mainPanel.add(bar2, Integer.valueOf(2));
+        } catch (NotInBattleException e) {
+            JOptionPane.showMessageDialog(this, "No hay una batalla activa.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     @Override
@@ -276,18 +284,22 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
     }
 
     public void makeDamage(byte index) {
-        boolean tempTurn = controllerBattle.getTurn();
-        controllerBattle.processAttack(index);
-        if(tempTurn){
-            bar2.setHp(controllerBattle.getPokemon2().getHealth());
-        } else {
-            bar1.setHp(controllerBattle.getPokemon1().getHealth());
+        try {
+            boolean tempTurn = controllerBattle.getTurn();
+            controllerBattle.processAttack(index);
+            if (tempTurn) {
+                bar2.setHp(controllerBattle.getPokemon2().getHealth());
+            } else {
+                bar1.setHp(controllerBattle.getPokemon1().getHealth());
+            }
+            if (controllerBattle.hasFinish()) {
+                chooseAgain();
+                return;
+            }
+            updateThings();
+        } catch (NotInBattleException e) {
+            JOptionPane.showMessageDialog(this, "No hay una batalla activa.", "Error", JOptionPane.WARNING_MESSAGE);
         }
-        if(controllerBattle.hasFinish()){
-            chooseAgain();
-            return;
-        }
-        updateThings();
     }
 
     public void setAttacksButtons() {
@@ -303,10 +315,14 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
     }
 
     public void updateAttacksButtons() {
-        if (controllerBattle.getTurn()) {
-            cards_buttons.show(buttonsPanel, "attacks1");
-        } else {
-            cards_buttons.show(buttonsPanel, "attacks2");
+        try {
+            if (controllerBattle.getTurn()) {
+                cards_buttons.show(buttonsPanel, "attacks1");
+            } else {
+                cards_buttons.show(buttonsPanel, "attacks2");
+            }
+        } catch (NotInBattleException e) {
+            JOptionPane.showMessageDialog(this, "No hay una batalla activa.", "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -352,14 +368,18 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
     }
 
     public void addPokemonImages() {
-        if (labelPokemon1 != null) mainPanel.remove(labelPokemon1);
-        if (labelPokemon2 != null) mainPanel.remove(labelPokemon2);
+        try {
+            if (labelPokemon1 != null) mainPanel.remove(labelPokemon1);
+            if (labelPokemon2 != null) mainPanel.remove(labelPokemon2);
 
 
-        labelPokemon1 = createPokemonImageLabel(controllerBattle.getPokemon1().getImagenUrl(), 1050, 200, 200, 200); // lado izquierdo
-        labelPokemon2 = createPokemonImageLabel(controllerBattle.getPokemon2().getImagenUrl(), 350, 400, 200, 200); // lado derecho
+            labelPokemon1 = createPokemonImageLabel(controllerBattle.getPokemon1().getImagenUrl(), 1050, 200, 200, 200); // lado izquierdo
+            labelPokemon2 = createPokemonImageLabel(controllerBattle.getPokemon2().getImagenUrl(), 350, 400, 200, 200); // lado derecho
 
-        mainPanel.add(labelPokemon1, Integer.valueOf(2));
-        mainPanel.add(labelPokemon2, Integer.valueOf(2));
+            mainPanel.add(labelPokemon1, Integer.valueOf(2));
+            mainPanel.add(labelPokemon2, Integer.valueOf(2));
+        } catch (NotInBattleException e) {
+            JOptionPane.showMessageDialog(this, "No hay una batalla activa para mostrar imágenes.", "Error", JOptionPane.WARNING_MESSAGE);
+        }
     }
 }
