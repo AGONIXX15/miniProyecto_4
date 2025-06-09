@@ -1,7 +1,7 @@
-# MiniProyecto #3
+# MiniProyecto #4
 
->*Repositorio MiniProyecto #3- Programacion Orientada a Eventos-50*
-**Proyecto de Juego de pokemon**
+>*Repositorio MiniProyecto #4- Programacion Orientada a Eventos-50*
+**Proyecto Final de Juego de pokemon**
 
 Juego de pokemon con interfaz grafica y consola, aplicando el patron de diseño MVC.
 
