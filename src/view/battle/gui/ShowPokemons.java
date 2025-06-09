@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class ShowPokemons extends JScrollPane {
     private Trainer trainer;
-    private int choose = -1;
+    private byte choose = -1;
     private JLabel []labelInfos;
 
     public ShowPokemons(Trainer trainer) {
@@ -27,7 +27,7 @@ public class ShowPokemons extends JScrollPane {
         label.setFont(CustomFont.loadfont(20f));
         panel.add(label);
 
-        for (int i = 0; i < trainer.getTeamArray().length; i++) {
+        for (byte i = 0; i < trainer.getTeamArray().length; i++) {
             JPanel pokemonPanel = new JPanel(new BorderLayout());
 
             pokemonPanel.setBorder(BorderFactory.createLineBorder(Color.blue, 2));
@@ -59,10 +59,9 @@ public class ShowPokemons extends JScrollPane {
 
 
             // Botón "Escoger"
-            JButton botonElegir = new JButton("Seleccionar");
-            botonElegir.setPreferredSize(new Dimension(110, 30));
-            botonElegir.setFont(CustomFont.loadfont(15));
-            int index = i;
+            JButton botonElegir = new JButton("Escoger");
+            botonElegir.setPreferredSize(new Dimension(100, 30));
+            byte index = i;
             botonElegir.addActionListener(e -> {
                 try {
                     if (!trainer.getTeamArray()[index].isAlive()) {
@@ -95,7 +94,7 @@ public class ShowPokemons extends JScrollPane {
         }
     }
 
-    public int  getChoose() {
+    public byte  getChoose() {
         if (choose == -1) {
             System.out.println("no ha sido seleccionado");
         }

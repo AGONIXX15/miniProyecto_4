@@ -2,6 +2,7 @@ package models;
 
 import controllers.ControllerBattle;
 import datos.HistoryData;
+import view.battle.console.Colors;
 
 public class Combat {
     // si turno es verdadera ataque el primer pokemon si no el segundo pokemon
@@ -71,6 +72,7 @@ public class Combat {
         String menssage = String.format("%s realizo %s hacia %s con un daño de %d\n",trainerName, attack.getName(), pokemon2.getName(), damage);
         controller.sendMessage(menssage);
         history.setPila(menssage);
+        controller.sendMessage(String.format("%s Ha realizado: %s hacia %s con un dano de %d\n",trainerName, attack.getName(), pokemon2.getName(), damage));
         pokemon2.takeDamage(damage);
     }
 

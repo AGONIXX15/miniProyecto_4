@@ -4,19 +4,27 @@ import battle.BattleTrainer;
 import controllers.ControllerBattle;
 import exceptions.NotInBattleException;
 import models.Pokemon;
+import models.Save;
+import models.Trainer;
 import utils.ReproduceSound;
 import utils.CustomFont;
 import view.battle.*;
+import view.utils.Pair;
+import view.utils.Triple;
 
 import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.io.IOException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
 public class BattlePokemonGUI extends JFrame implements ViewBattle {
-    public int index1, index2;
+    public byte index1, index2;
     private CardLayout cards_menu, cards_buttons;
     private JPanel choose_menu, buttonsPanel;
     private JLayeredPane mainPanel;
@@ -29,6 +37,7 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
     private static BattlePokemonGUI instance;
     private boolean trainer1Active;
     private ControllerBattle controllerBattle;
+    private JButton saveGame, loadGame;
 
     public static BattlePokemonGUI getInstance() {
         return instance;
@@ -102,17 +111,96 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
 
 
         setContentPane(mainPanel);
+
+        sound = new ReproduceSound();
+        sound.loadSound("sounds/Voicy_Pokemon GO OST_ Battle.wav");
+        sound.loopSound();
+
+        loadGame = new JButton("Load Game");
+        loadGame.setVisible(false);
+        loadGame.setBounds(1100,400,100,100);
+        mainPanel.add(loadGame, Integer.valueOf(1));
+        loadGame.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+            int option = chooser.showOpenDialog(null);
+            if(option == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                if (file.exists()) {
+
+                    try {
+                        Save save = Save.loadSave(file);
+                        Triple<Trainer, Trainer, Random> gameTriple = save.getTrainers();
+                        System.out.println(gameTriple.first.toString());
+                        System.out.println(gameTriple.second.toString());
+                        ControllerBattle controller = new ControllerBattle(gameTriple.first, gameTriple.second, gameTriple.third, save);
+                        BattlePokemonGUI view = new BattlePokemonGUI(controller);
+                        controller.setViewBattle(view);
+                        sound.stopSound();
+                        dispose();
+                        controller.startBattle();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    } catch (ClassNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
+
+        saveGame = new JButton("Save Game");
+        saveGame.setBounds(1200,400,100,100);
+        saveGame.setVisible(false);
+        mainPanel.add(saveGame, Integer.valueOf(1));
+        saveGame.addActionListener(event -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Guardar objeto Persona (serializado)");
+
+            int userSelection = fileChooser.showSaveDialog(null);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+
+                // Añadir extensión .ser si no la tiene (convención para serializados)
+                if (!file.getName().toLowerCase().endsWith(".ser")) {
+                    file = new File(file.getAbsolutePath() + ".ser");
+                }
+
+                // Confirmar sobrescritura
+                if (file.exists()) {
+                    int respuesta = JOptionPane.showConfirmDialog(null,
+                            "El archivo ya existe. ¿Quieres sobrescribirlo?",
+                            "Confirmar sobrescritura",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (respuesta != JOptionPane.YES_OPTION) {
+                        System.out.println("Guardado cancelado.");
+                        return;
+                    }
+                }
+
+                // Guardar objeto serializado
+                try {
+                    controllerBattle.saveGame(file);
+                    JOptionPane.showMessageDialog(null, "Objeto guardado serializado correctamente.");
+                } catch (IOException e) {
+                    JOptionPane.showMessageDialog(null, "Error al guardar archivo: " + e.getMessage());
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         //reproducir sonido
-        sound = new ReproduceSound();
-        sound.loadSound("sounds/Voicy_Pokemon GO OST_ Battle.wav");
-        sound.loopSound();
     }
 
     @Override
     public void start(){
+        saveGame.setVisible(true);
+        loadGame.setVisible(true);
         cards_menu.show(choose_menu, "trainer1");
     }
 
@@ -139,6 +227,8 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
 
         index1 = -1;
         index2 = -1;
+        saveGame.setVisible(true);
+        loadGame.setVisible(true);
         System.out.println(trainer1Active);
         cards_menu.show(choose_menu, "trainer1");
     }
@@ -158,6 +248,10 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
             trainer1Active = true;
             choose_menu.setVisible(false);
             controllerBattle.startCombat(index1, index2);
+            // guardar index1 y index2
+            controllerBattle.saveTurn(new Pair<Byte, Byte>(index1, index2));
+            saveGame.setVisible(false);
+            loadGame.setVisible(false);
             setThings();
             return;
         }
