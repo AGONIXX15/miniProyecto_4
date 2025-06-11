@@ -48,10 +48,10 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
 
         ImageIcon fondoIcon, fondoBotonSeleccionar, fondoBotonAsignar, fondoBotonBatalla;
 
-        fondoIcon = new ImageIcon("resources/images/fondoSeleccion.png");
-        fondoBotonSeleccionar = new ImageIcon("resources/images/fondoBotonSeleccionar3.png");
-        fondoBotonAsignar = new ImageIcon("resources/images/fondoBotonAsignar.png");
-        fondoBotonBatalla = new ImageIcon("resources/images/fondoBotonBatalla.png");
+        fondoIcon = new ImageIcon("src/resources/images/fondoSeleccion.png");
+        fondoBotonSeleccionar = new ImageIcon("src/resources/images/fondoBotonSeleccionar3.png");
+        fondoBotonAsignar = new ImageIcon("src/resources/images/fondoBotonAsignar.png");
+        fondoBotonBatalla = new ImageIcon("src/resources/images/fondoBotonBatalla.png");
         JLabel fondo = new JLabel(fondoIcon);
         fondo.setBounds(0, 0, fondoIcon.getIconWidth(), fondoIcon.getIconHeight());
         setExtendedState(JFrame.MAXIMIZED_BOTH);

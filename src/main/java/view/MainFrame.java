@@ -37,7 +37,7 @@ public class MainFrame extends JFrame {
         mensaje.setAlignmentX(Component.CENTER_ALIGNMENT);
         mensaje.setMaximumSize(new Dimension(800, 150));
 
-        ImageIcon imageHome = new ImageIcon("resources/images/botonInicio.png");
+        ImageIcon imageHome = new ImageIcon("src/resources/images/botonInicio.png");
         JButton begin = new JButton(imageHome);
         begin.setAlignmentX(Component.CENTER_ALIGNMENT);
         begin.setFocusPainted(false);
@@ -55,7 +55,7 @@ public class MainFrame extends JFrame {
             controller.setViewI(viewTrainer);
         });
 
-        ImageIcon trainer1 = new ImageIcon("resources/images/fondo3.jpg");
+        ImageIcon trainer1 = new ImageIcon("src/resources/images/fondo3.jpg");
         Image image = trainer1.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
         JLabel imagenLabel = new JLabel(new ImageIcon(image));
 
@@ -68,7 +68,7 @@ public class MainFrame extends JFrame {
         panel.add(begin);
 
 
-        ImageIcon backgroundImage = new ImageIcon("resources/images/fondo3.jpg");
+        ImageIcon backgroundImage = new ImageIcon("src/resources/images/fondo3.jpg");
         Image scaledImage = backgroundImage.getImage().getScaledInstance(
                 Toolkit.getDefaultToolkit().getScreenSize().width,
                 Toolkit.getDefaultToolkit().getScreenSize().height,
