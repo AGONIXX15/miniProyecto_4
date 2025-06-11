@@ -99,7 +99,7 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 
-        ImageIcon battleBackground = new ImageIcon("resources/images/battleBackground.jpg");
+        ImageIcon battleBackground = new ImageIcon("src/resources/images/battleBackground.jpg");
         Image scaledImage = battleBackground.getImage().getScaledInstance(
                 screenSize.width, screenSize.height, Image.SCALE_SMOOTH);
         ImageIcon scaledBackground = new ImageIcon(scaledImage);
