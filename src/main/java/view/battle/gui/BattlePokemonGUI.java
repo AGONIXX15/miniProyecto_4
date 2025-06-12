@@ -3,9 +3,8 @@ package view.battle.gui;
 import battle.BattleTrainer;
 import controllers.ControllerBattle;
 import exceptions.NotInBattleException;
-import models.SaveViewGui;
+import view.battle.gui.components.SaveViewGui;
 import models.pokemon.Pokemon;
-import models.datos.Save;
 import utils.Pokedex;
 import utils.ReproduceSound;
 import utils.CustomFont;
@@ -15,7 +14,6 @@ import utils.Pair;
 
 
 import javax.imageio.ImageIO;
-import java.io.File;
 import java.net.URL;
 import java.io.IOException;
 

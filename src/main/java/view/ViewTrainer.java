@@ -2,6 +2,7 @@ package view;
 
 import controllers.ControllerBattle;
 import controllers.ControllerTrainer;
+import view.battle.gui.components.SaveViewGui;
 import models.pokemon.Pokemon;
 import models.trainer.Trainer;
 import utils.ReproduceSound;
@@ -28,7 +29,7 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
     String nombre1, nombre2;
     JPanel contenedor;
     JLabel entrenador1, entrenador2, textoBienvenida;
-    JButton iniciarBatalla, mostrarEquipo, asignarEntreadores,cambiarConsola;
+    JButton iniciarBatalla, mostrarEquipo, asignarEntreadores,cambiarConsola,cargarJuego;
     TextField entrenador1Texto, entrenador2Texto;
     public boolean entreadoresIntroduccidos, asignacionDeEquipos = false;
     public boolean tried;
@@ -108,6 +109,20 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         iniciarBatalla = new JButton("Iniciar Batalla", fondoBotonBatalla);
         iniciarBatalla.setBounds(600, 700, 300, 60);
         fondo.add(iniciarBatalla);
+
+        RoundedButton cargarJuego = new RoundedButton("Cargar partida",new Color(33, 150, 243), 30);
+        cargarJuego.setFont(CustomFont.loadfont(35f));
+        cargarJuego.setBounds(1200, 720, 300, 60);
+        cargarJuego.addActionListener(e -> {
+            if (SaveViewGui.load()){
+                dispose();
+                MainFrame.reproduceSound.stopSound();
+            }
+
+        });
+        fondo.add(cargarJuego);
+
+
 
 
 
@@ -219,8 +234,6 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
             infoLabel.setForeground(Color.BLACK);
             pokemonPanel.add(infoLabel, BorderLayout.CENTER);
             panels.addLast(pokemonPanel);
-           // panel1.add(Box.createRigidArea(new Dimension(10, 3))); // Espaciado entre recuadros
-           // panel1.add(pokemonPanel);
         }
         return panels;
 

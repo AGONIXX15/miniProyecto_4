@@ -1,4 +1,4 @@
-package models;
+package view.battle.gui.components;
 
 import controllers.ControllerBattle;
 import models.datos.Save;
@@ -12,7 +12,7 @@ public class SaveViewGui {
 
     public static void save(ControllerBattle controller){
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Guardar objeto Persona (serializado)");
+        fileChooser.setDialogTitle("Guardar juego Pokemon");
 
         int userSelection = fileChooser.showSaveDialog(null);
 
@@ -40,7 +40,7 @@ public class SaveViewGui {
             // Guardar objeto serializado
             try {
                 controller.saveGame(file);
-                JOptionPane.showMessageDialog(null, "Objeto guardado serializado correctamente.");
+                JOptionPane.showMessageDialog(null, "Partida Guardada!");
             } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, "Error al guardar archivo: " + e.getMessage());
             } catch (ClassNotFoundException ex) {
