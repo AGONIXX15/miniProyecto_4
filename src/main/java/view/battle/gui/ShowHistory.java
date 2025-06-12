@@ -49,12 +49,6 @@ public class ShowHistory {
         Graph.addActionListener(e -> {
             StatisticsGraph statsGraph = new StatisticsGraph();
 
-            JFrame statsFrame = new JFrame("Gráfica de Estadísticas");
-            statsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            statsFrame.setSize(600, 400);
-            statsFrame.setLocationRelativeTo(null);
-            statsFrame.add(statsGraph);
-            statsFrame.setVisible(true);
         });
 
         // Panel inferior para el botón
