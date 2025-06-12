@@ -38,7 +38,8 @@ Este proyecto implementa varias estructuras de datos para gestionar de forma cla
 
 - Pokemon[] y Attack[] (Arreglos):
   Definidos en PokemonFactory y AttackFactory, contienen listas predefinidas de Pokémon y ataques que pueden ser utilizados en las batallas.
-
+- Queue<String> (Cola):
+   usamos una cola para mostrar los mensajes lentamente en un componente entonces queriamos procesar todos los mensajes sin que se intercalaran y se nos ocurrio la idea de usar una cola para hacer ese proceso mucho más facil.
 ---
 ## 🛠️ Tecnologías Utilizadas
 
