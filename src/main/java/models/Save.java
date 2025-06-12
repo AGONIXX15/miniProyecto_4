@@ -100,10 +100,10 @@ public class Save implements Serializable {
                 byte attack = iteratorAttack.next();
                 if(turn){
                     int damage = pokemon1.makeDamage(pokemon2, pokemon1.getAttacks()[attack]);
-                    damagePokemon1.push(damage);
+                    damagePokemon1.addLast(damage);
                 } else {
                     int damage = pokemon2.makeDamage(pokemon1, pokemon2.getAttacks()[attack]);
-                    damagePokemon2.push(damage);
+                    damagePokemon2.addLast(damage);
                 }
                 turn = !turn;
             }

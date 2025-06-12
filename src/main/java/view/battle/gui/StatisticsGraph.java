@@ -48,12 +48,12 @@ public class StatisticsGraph extends JFrame {
         String pokemonName2 = controller.trainer2.getTeamArray()[p.second].getName();
         int index = 1;
         for(Integer damage: dañoP1){
-            dataset.addValue(damage, pokemonName1, "Turno " + index);
+            dataset.addValue(damage, pokemonName2, "Turno " + index);
             ++index;
         }
         index = 1;
         for(Integer damage: dañoP2){
-            dataset.addValue(damage, pokemonName2, "Turno " + index);
+            dataset.addValue(damage, pokemonName1, "Turno " + index);
             ++index;
         }
 
