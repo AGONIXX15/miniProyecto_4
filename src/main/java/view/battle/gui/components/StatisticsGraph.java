@@ -46,6 +46,10 @@ public class StatisticsGraph extends JFrame {
         // agarrar los nombres de los respectivos pokemones
         String pokemonName1 = controller.trainer1.getTeamArray()[p.first].getName();
         String pokemonName2 = controller.trainer2.getTeamArray()[p.second].getName();
+        if (pokemonName1.equals(pokemonName2)) {
+            pokemonName1 += "(A)";
+            pokemonName2 += "(B)";
+        }
         int index = 1;
         for(Integer damage: dañoP1){
             dataset.addValue(damage, pokemonName2, "Turno " + index);
