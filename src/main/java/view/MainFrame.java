@@ -50,8 +50,8 @@ public class MainFrame extends JFrame {
 
         begin.addActionListener(e -> {
             setVisible(false);
-            ViewTrainer viewTrainer = new ViewTrainer();
-            ControllerTrainer controller = ControllerTrainer.getInstance();
+            ControllerTrainer controller = new ControllerTrainer();
+            ViewTrainer viewTrainer = new ViewTrainer(controller);
             controller.setViewI(viewTrainer);
         });
 

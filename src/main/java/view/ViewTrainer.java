@@ -3,6 +3,7 @@ package view;
 import controllers.ControllerBattle;
 import controllers.ControllerTrainer;
 import models.pokemon.Pokemon;
+import models.trainer.Trainer;
 import utils.ReproduceSound;
 import utils.CustomFont;
 
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import javax.swing.*;
 
 import utils.RoundedButton;
@@ -30,11 +32,13 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
     TextField entrenador1Texto, entrenador2Texto;
     public boolean entreadoresIntroduccidos, asignacionDeEquipos = false;
     public boolean tried;
+    private ControllerTrainer controller;
 
-    public ViewTrainer() {
-        if(ControllerTrainer.getInstance().trainer1 != null) {
-            nombre1 = ControllerTrainer.getInstance().trainer1.getNameTrainer();
-            nombre2 = ControllerTrainer.getInstance().trainer2.getNameTrainer();
+    public ViewTrainer(ControllerTrainer controller) {
+        this.controller = controller;
+        if(this.controller.trainer1 != null) {
+            nombre1 = this.controller.trainer1.getNameTrainer();
+            nombre2 = this.controller.trainer2.getNameTrainer();
         }
         tried = false;
         setTitle("Seleccionar Entrenadores");
@@ -117,7 +121,6 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         cambiarConsola.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                ControllerTrainer controller = ControllerTrainer.getInstance();
 
                 ViewTrainerConsole viewConsola = new ViewTrainerConsole(controller);
                 controller.setViewI(viewConsola);
@@ -133,8 +136,9 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         });
 
         mostrarEquipo.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
-                if (entreadoresIntroduccidos || ControllerTrainer.getInstance().trainer1!=null) {
+                if (entreadoresIntroduccidos || controller.trainer1!=null) {
                     asignacionDeEquipos = true;
                     mostrarEquipo();
                     return;
@@ -147,8 +151,8 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
 
         iniciarBatalla.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println(ControllerTrainer.getInstance().trainer1);
-                if (ControllerTrainer.getInstance().trainer1 != null || (entreadoresIntroduccidos && asignacionDeEquipos)) {
+                System.out.println(controller.trainer1);
+                if (controller.trainer1 != null || (entreadoresIntroduccidos && asignacionDeEquipos)) {
                     tried = true;
                     if(MainFrame.reproduceSound != null){
                         MainFrame.reproduceSound.stopSound();
@@ -159,11 +163,11 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
                     reproduceSound.playSound();
                     Timer t = new Timer(1000, event -> {
                         setVisible(false);
-                        ControllerBattle controller = new ControllerBattle(ControllerTrainer.getInstance().trainer1, ControllerTrainer.getInstance().trainer2, ControllerTrainer.getInstance().getRandom());
-                        BattlePokemonGUI view = new BattlePokemonGUI(controller);
-                        controller.setViewBattle(view);
+                        ControllerBattle controllerBattle = new ControllerBattle(controller.trainer1, controller.trainer2, controller.getRandom());
+                        BattlePokemonGUI view = new BattlePokemonGUI(controllerBattle);
+                        controllerBattle.setViewBattle(view);
                         dispose();
-                        controller.startBattle();
+                        controllerBattle.startBattle();
                     });
                     t.setRepeats(false);
                     t.start();
@@ -193,45 +197,53 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         entreadoresIntroduccidos = false;
     }
 
-    public void mostrarEquipo() {
-
-        JPanel panel = new JPanel(new GridLayout(1, 2));
-
-        //mostrar equipo de entranador1
-        JPanel panel1 = new JPanel();
-        ControllerTrainer.getInstance().introducirTrainers(entrenador1Texto.getText(), entrenador2Texto.getText());
-
-        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
-        JLabel textoEquipo = new JLabel("Equipo de " +nombre1 + ":");
-        textoEquipo.setFont(CustomFont.loadfont(18));
-        panel1.add(textoEquipo);
-        for (Pokemon p : ControllerTrainer.getInstance().trainer1.getTeamArray()) {
+    public LinkedList<JPanel> getTeamPanel(Trainer trainer, Color colorBorder, Color colorBackground){
+        LinkedList<JPanel> panels = new LinkedList<>();
+        for (Pokemon p : trainer.getTeamArray()) {
             JPanel pokemonPanel = new JPanel(new BorderLayout());
-            pokemonPanel.setBorder(BorderFactory.createLineBorder(Color.blue, 2)); // Borde negro
-            pokemonPanel.setBackground(new Color(33, 150, 243));
+            pokemonPanel.setBorder(BorderFactory.createLineBorder(colorBorder, 2)); // Borde negro
+            pokemonPanel.setBackground(colorBackground);
             pokemonPanel.setPreferredSize(new Dimension(470, 70));
 
-            Integer id = Pokedex.pokedex.get(p.getName());
-            if (id != null) {
-                String imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png";
-                try {
-                    URL url = new URL(imageUrl);
-                    Image imagen = ImageIO.read(url);
-                    Image escalaImagen = imagen.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
-                    JLabel iconLabel = new JLabel(new ImageIcon(escalaImagen));
-                    pokemonPanel.add(iconLabel, BorderLayout.WEST);
-                } catch (Exception ex) {
-                    System.out.println("Error cargando imagen para " + p.getName() + ": " + ex.getMessage());
-                }
+            try {
+                String imageUrl = Pokedex.getUrlByName(p.getName());
+                URL url = new URL(imageUrl);
+                Image imagen = ImageIO.read(url);
+                Image escalaImagen = imagen.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
+                JLabel iconLabel = new JLabel(new ImageIcon(escalaImagen));
+                pokemonPanel.add(iconLabel, BorderLayout.WEST);
+            } catch (Exception ex) {
+                System.out.println("Error cargando imagen para " + p.getName() + ": " + ex.getMessage());
             }
 
             JLabel infoLabel = new JLabel("Nombre: " + p.getName() + " Tipo: " + p.getType() + " Vida: " + p.getHealth()+" Velocidad: "+p.getSpeed());
             infoLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
             infoLabel.setForeground(Color.BLACK);
             pokemonPanel.add(infoLabel, BorderLayout.CENTER);
+            panels.addLast(pokemonPanel);
+           // panel1.add(Box.createRigidArea(new Dimension(10, 3))); // Espaciado entre recuadros
+           // panel1.add(pokemonPanel);
+        }
+        return panels;
 
-            panel1.add(Box.createRigidArea(new Dimension(10, 3))); // Espaciado entre recuadros
-            panel1.add(pokemonPanel);
+    }
+
+    public void mostrarEquipo() {
+
+        JPanel panel = new JPanel(new GridLayout(1, 2));
+
+        //mostrar equipo de entranador1
+        JPanel panel1 = new JPanel();
+        this.controller.introducirTrainers(entrenador1Texto.getText(), entrenador2Texto.getText());
+
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+        JLabel textoEquipo = new JLabel("Equipo de " +nombre1 + ":");
+        textoEquipo.setFont(CustomFont.loadfont(18));
+        panel1.add(textoEquipo);
+
+        for(JPanel p: getTeamPanel(this.controller.trainer1, Color.blue,new Color(33, 150, 243))){
+            panel1.add(Box.createRigidArea(new Dimension(10, 3)));
+            panel1.add(p);
         }
 
         //mostrar equipo de entranador2
@@ -240,33 +252,10 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
         JLabel textoEquipo2 = new JLabel("Equipo de " + nombre2+ ":");
         textoEquipo2.setFont(CustomFont.loadfont(18));
         panel2.add(textoEquipo2);
-        for (Pokemon p : ControllerTrainer.getInstance().trainer2.getTeamArray()) {
-            JPanel pokemonPanel = new JPanel(new BorderLayout());
-            pokemonPanel.setBorder(BorderFactory.createLineBorder(Color.RED, 2)); // Borde negro
-            pokemonPanel.setBackground(new Color(205, 64, 64));
-            pokemonPanel.setPreferredSize(new Dimension(470, 70));
 
-            Integer id = Pokedex.pokedex.get(p.getName());
-            if (id != null) {
-                String imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png";
-                try {
-                    URL url = new URL(imageUrl);
-                    Image imagen = ImageIO.read(url);
-                    Image escalaImagen = imagen.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
-                    JLabel iconLabel = new JLabel(new ImageIcon(escalaImagen));
-                    pokemonPanel.add(iconLabel, BorderLayout.WEST);
-                } catch (Exception ex) {
-                    System.out.println("Error cargando imagen para " + p.getName() + ": " + ex.getMessage());
-                }
-            }
-
-            JLabel infoLabel = new JLabel("Nombre: " + p.getName() + " Tipo: " + p.getType() + " Vida: " + p.getHealth()+" Velocidad: "+ p.getSpeed());
-            infoLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 12));
-            infoLabel.setForeground(Color.BLACK);
-            pokemonPanel.add(infoLabel, BorderLayout.CENTER);
-
-            panel2.add(Box.createRigidArea(new Dimension(10, 3))); // Espaciado entre recuadros
-            panel2.add(pokemonPanel);
+        for(JPanel p: getTeamPanel(this.controller.trainer2, Color.red,new Color(205, 64, 64))){
+            panel2.add(Box.createRigidArea(new Dimension(10, 3)));
+            panel2.add(p);
         }
 
         panel.add(panel1);

@@ -5,6 +5,7 @@ import controllers.ControllerBattle;
 import exceptions.NotInBattleException;
 import models.pokemon.Pokemon;
 import models.datos.Save;
+import utils.Pokedex;
 import utils.ReproduceSound;
 import utils.CustomFont;
 import view.ViewBattle;
@@ -368,14 +369,16 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
             if (labelPokemon1 != null) mainPanel.remove(labelPokemon1);
             if (labelPokemon2 != null) mainPanel.remove(labelPokemon2);
 
-
-            labelPokemon1 = createPokemonImageLabel(controllerBattle.getPokemon1().getImagenUrl(), 1050, 200, 200, 200); // lado izquierdo
-            labelPokemon2 = createPokemonImageLabel(controllerBattle.getPokemon2().getImagenUrl(), 350, 400, 200, 200); // lado derecho
+            labelPokemon1 = createPokemonImageLabel(Pokedex.getUrlByName(controllerBattle.getPokemon1().getName()), 1050, 200, 200, 200); // lado izquierdo
+            labelPokemon2 = createPokemonImageLabel(Pokedex.getUrlByName(controllerBattle.getPokemon2().getName()), 350, 400, 200, 200); // lado derecho
 
             mainPanel.add(labelPokemon1, Integer.valueOf(2));
             mainPanel.add(labelPokemon2, Integer.valueOf(2));
         } catch (NotInBattleException e) {
             JOptionPane.showMessageDialog(this, "No hay una batalla activa para mostrar imágenes.", "Error", JOptionPane.WARNING_MESSAGE);
+        }  catch(IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "ese pokemon no existe", "error", JOptionPane.ERROR_MESSAGE);
         }
+
     }
 }

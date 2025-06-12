@@ -10,11 +10,11 @@ import java.util.Scanner;
 
 public class ViewTrainerConsole implements ViewTrainerInterface {
     Scanner sc = new Scanner(System.in);
-    public ControllerTrainer controllerTrainer;
+    public ControllerTrainer controller;
     ViewTrainer viewTrainer;
 
     public ViewTrainerConsole(ControllerTrainer controllerTrainer) {
-        this.controllerTrainer = controllerTrainer;
+        this.controller = controllerTrainer;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class ViewTrainerConsole implements ViewTrainerInterface {
                     String nombre1 = sc.nextLine();
                     System.out.print("Ingresa el nombre del entrenador 2: ");
                     String nombre2 = sc.nextLine();
-                    this.controllerTrainer.introducirTrainers(nombre1, nombre2);
+                    this.controller.introducirTrainers(nombre1, nombre2);
                     break;
                 case 2:
                     ControllerTrainer.getInstance().MostrarPokemons();
@@ -47,15 +47,15 @@ public class ViewTrainerConsole implements ViewTrainerInterface {
 
                     Trainer trainer1 = ControllerTrainer.getInstance().trainer1;
                     Trainer trainer2 = ControllerTrainer.getInstance().trainer2;
-                    ControllerBattle controller = new ControllerBattle(trainer1, trainer2, controllerTrainer.getRandom());
+                    ControllerBattle controller = new ControllerBattle(trainer1, trainer2, this.controller.getRandom());
                     BattlePokemonConsole view = new BattlePokemonConsole(controller);
                     controller.setViewBattle(view);
                     controller.startBattle();
                     break;
                 case 4:
                     System.out.println("cambiando de vista");
-                    ViewTrainer nuevaView = new ViewTrainer();
-                    ControllerTrainer.getInstance().setViewI(nuevaView);
+                    ViewTrainer nuevaView = new ViewTrainer(this.controller);
+                    this.controller.setViewI(nuevaView);
                     nuevaView.mostrarMenu();
                     return;
                 case 5:

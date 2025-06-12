@@ -25,22 +25,17 @@ public class Pokemon {
      * @param type    tipo del pokemon
      * @param attacks ataques del pokemon
      */
-    public Pokemon(String name, int healthMax, TypePokemon type, Attack[] attacks,
-                   String imagenUrl, int defense, int specialDefense, int speed) {
+    public Pokemon(String name, int healthMax, TypePokemon type, Attack[] attacks, int defense, int specialDefense, int speed) {
         this.name = name;
         this.healthMax = healthMax;
         this.health = healthMax;
         this.type = type;
         this.attacks = attacks;
-        this.imagenUrl = imagenUrl;
         this.defense = defense;
         this.specialDefense = specialDefense;
         this.speed = speed;
     }
 
-    public String getImagenUrl() {
-        return imagenUrl;
-    }
 
     public String getName() {
         return name;
@@ -134,7 +129,7 @@ public class Pokemon {
 
     // clonar en memoria el pokemon
     public Pokemon clonar(){
-        return new Pokemon(name, healthMax, type, attacks,imagenUrl,defense, specialDefense, speed);
+        return new Pokemon(name, healthMax, type, attacks,defense, specialDefense, speed);
     }
 
     public int getSpeed() {

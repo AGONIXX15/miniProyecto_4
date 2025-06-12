@@ -1,6 +1,6 @@
 import view.MainFrame;
 
 public class Main {
-    //entry point
+    //antry point
     public static void main(String[] args) { new MainFrame(); }
 }
