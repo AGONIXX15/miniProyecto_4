@@ -1,8 +1,9 @@
-package models;
+package models.combat;
 
 import controllers.ControllerBattle;
-import datos.HistoryData;
-import view.battle.console.Colors;
+import models.datos.HistoryData;
+import models.pokemon.Attack;
+import models.pokemon.Pokemon;
 
 public class Combat {
     // si turno es verdadera ataque el primer pokemon si no el segundo pokemon

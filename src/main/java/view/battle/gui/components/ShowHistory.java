@@ -1,12 +1,9 @@
-package view.battle.gui;
+package view.battle.gui.components;
 
 import controllers.ControllerBattle;
-import datos.HistoryData;
-import models.Pokemon;
 
 import javax.swing.*;
 import java.awt.*;
-import view.battle.gui.StatisticsGraph;
 
 
 public class ShowHistory {

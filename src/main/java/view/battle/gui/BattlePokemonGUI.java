@@ -2,27 +2,22 @@ package view.battle.gui;
 
 import battle.BattleTrainer;
 import controllers.ControllerBattle;
-import datos.HistoryData;
 import exceptions.NotInBattleException;
-import models.Pokemon;
-import models.Save;
-import models.Trainer;
+import models.pokemon.Pokemon;
+import models.datos.Save;
 import utils.ReproduceSound;
 import utils.CustomFont;
-import view.battle.*;
-import view.utils.Pair;
-import view.utils.Triple;
+import view.ViewBattle;
+import view.battle.gui.components.*;
+import utils.Pair;
 
 import javax.imageio.ImageIO;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.io.IOException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Random;
 
 public class BattlePokemonGUI extends JFrame implements ViewBattle {
     public byte index1, index2;

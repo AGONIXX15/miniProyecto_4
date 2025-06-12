@@ -1,9 +1,10 @@
-package models;
+package models.datos;
 
 import controllers.ControllerBattle;
-import datos.HistoryData;
-import view.utils.Pair;
-import view.utils.Triple;
+import models.trainer.Trainer;
+import models.pokemon.Pokemon;
+import models.pokemon.PokemonFactory;
+import utils.Pair;
 
 import java.io.*;
 import java.util.LinkedList;

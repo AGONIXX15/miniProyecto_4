@@ -1,8 +1,7 @@
 package battle;
 
-import models.Trainer;
-import models.Pokemon;
-import view.battle.gui.BattlePokemonGUI;
+import models.trainer.Trainer;
+import models.pokemon.Pokemon;
 
 // clase para hacer la comprobacion si un entrenador ha perdido
 public class BattleTrainer {

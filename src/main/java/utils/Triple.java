@@ -1,4 +1,4 @@
-package view.utils;
+package utils;
 
 public class Triple<T1, T2, T3> {
     public T1 first;

@@ -1,4 +1,4 @@
-package models;
+package models.pokemon;
 
 import view.battle.gui.BattlePokemonGUI;
 

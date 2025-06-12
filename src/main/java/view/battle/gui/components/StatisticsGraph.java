@@ -1,11 +1,11 @@
-package view.battle.gui;
+package view.battle.gui.components;
 
 import controllers.ControllerBattle;
 import org.jfree.chart.*;
 import org.jfree.chart.plot.*;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.*;
-import view.utils.Pair;
+import utils.Pair;
 
 import javax.swing.*;
 import java.awt.*;

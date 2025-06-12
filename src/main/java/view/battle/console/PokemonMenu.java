@@ -1,12 +1,7 @@
 package view.battle.console;
 
-import models.Pokemon;
-import models.Attack;
-import models.TypeDamage;
-import models.TypePokemon;
-import view.battle.console.Colors;
-
-import java.util.Scanner;
+import models.pokemon.Pokemon;
+import models.pokemon.Attack;
 
 public class PokemonMenu {
 

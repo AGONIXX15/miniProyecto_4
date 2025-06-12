@@ -1,4 +1,4 @@
-package view.utils;
+package utils;
 
 import java.io.Serializable;
 

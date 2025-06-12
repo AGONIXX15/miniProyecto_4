@@ -6,10 +6,9 @@ import exceptions.InvalidAttackSelectionException;
 import exceptions.InvalidPokemonSelectionException;
 import exceptions.NotInBattleException;
 import exceptions.PokemonWeakenedException;
-import datos.HistoryData;
-import models.Pokemon;
-import models.Trainer;
-import view.battle.ViewBattle;
+import models.pokemon.Pokemon;
+import models.trainer.Trainer;
+import view.ViewBattle;
 
 import java.util.Scanner;
 

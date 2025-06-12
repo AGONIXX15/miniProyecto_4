@@ -1,13 +1,13 @@
 package controllers;
 
-import datos.HistoryData;
+import models.datos.HistoryData;
 import exceptions.NotInBattleException;
-import models.Pokemon;
-import models.Save;
-import models.Trainer;
-import view.battle.ViewBattle;
-import models.Combat;
-import view.utils.Pair;
+import models.pokemon.Pokemon;
+import models.datos.Save;
+import models.trainer.Trainer;
+import view.ViewBattle;
+import models.combat.Combat;
+import utils.Pair;
 
 import java.io.File;
 import java.io.IOException;
