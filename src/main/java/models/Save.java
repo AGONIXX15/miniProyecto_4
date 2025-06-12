@@ -84,23 +84,27 @@ public class Save implements Serializable {
         trainer2.randomTeam(rand);
         // simular el combate
         ListIterator<Byte> iteratorAttack = attacks.listIterator();
-        int index = -1;
+        int index = 0;
         for(Pair<Byte, Byte> turnPair: turns){
             Pokemon pokemon1 = trainer1.getTeamArray()[turnPair.first];
             Pokemon pokemon2 = trainer2.getTeamArray()[turnPair.second];
+            LinkedList<Integer> damagePokemon1 = new LinkedList<>();
+            LinkedList<Integer> damagePokemon2 = new LinkedList<>();
             boolean turn = pokemon1.getSpeed() >= pokemon2.getSpeed();
-            index++;
             while(pokemon1.isAlive() && pokemon2.isAlive() && iteratorAttack.hasNext()){
                 byte attack = iteratorAttack.next();
                 if(turn){
                     int damage = pokemon1.makeDamage(pokemon2, pokemon1.getAttacks()[attack]);
-                    damageTrainer1[index].push(damage);
+                    damagePokemon1.push(damage);
                 } else {
                     int damage = pokemon2.makeDamage(pokemon1, pokemon2.getAttacks()[attack]);
-                    damageTrainer2[index].push(damage);
+                    damagePokemon2.push(damage);
                 }
                 turn = !turn;
             }
+            damageTrainer1[index] = damagePokemon1;
+            damageTrainer2[index] = damagePokemon2;
+            index++;
         }
         return new Pair<LinkedList<Integer>[], LinkedList<Integer>[]>(damageTrainer1, damageTrainer2);
     }
