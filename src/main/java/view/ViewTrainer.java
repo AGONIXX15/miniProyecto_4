@@ -125,8 +125,6 @@ public class ViewTrainer extends JFrame implements ViewTrainerInterface {
                 ViewTrainerConsole viewConsola = new ViewTrainerConsole(controller);
                 controller.setViewI(viewConsola);
                 viewConsola.mostrarMenu();
-
-
             }
         });
         asignarEntreadores.addActionListener(new ActionListener() {
