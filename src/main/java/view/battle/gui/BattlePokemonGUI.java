@@ -2,6 +2,7 @@ package view.battle.gui;
 
 import battle.BattleTrainer;
 import controllers.ControllerBattle;
+import datos.HistoryData;
 import exceptions.NotInBattleException;
 import models.Pokemon;
 import models.Save;
@@ -131,10 +132,7 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
 
                     try {
                         Save save = Save.loadSave(file);
-                        Triple<Trainer, Trainer, Random> gameTriple = save.getTrainers();
-                        System.out.println(gameTriple.first.toString());
-                        System.out.println(gameTriple.second.toString());
-                        ControllerBattle controller = new ControllerBattle(gameTriple.first, gameTriple.second, gameTriple.third, save);
+                        ControllerBattle controller = save.getControllerBattle();
                         BattlePokemonGUI view = new BattlePokemonGUI(controller);
                         controller.setViewBattle(view);
                         sound.stopSound();

@@ -114,13 +114,14 @@ public class Pokemon {
     }
 
     // metodo para realizar daño
-    public void makeDamage(Pokemon enemy, Attack attack){
+    public int makeDamage(Pokemon enemy, Attack attack){
         float advantage = (hasAdvantage(enemy)) ? 1.3f : 1;
         if(advantage > 1){
         }
         int damage = (int) (advantage * attack.getPower());
         BattlePokemonGUI.getInstance().sendMessage(String.format("%s realizo %s hacia %s con un dano de %d\n",name, attack.getName(), enemy.getName(), damage));
         enemy.takeDamage(damage);
+        return damage;
     }
 
     @Override

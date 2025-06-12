@@ -1,5 +1,7 @@
 package models;
 
+import controllers.ControllerBattle;
+import datos.HistoryData;
 import view.utils.Pair;
 import view.utils.Triple;
 
@@ -37,11 +39,12 @@ public class Save implements Serializable {
     }
 
 
-    public Triple<Trainer, Trainer, Random> getTrainers(){
+    public ControllerBattle getControllerBattle() {
         // 1. jalar los entrenadores con sus pokemones
         Random rand = new Random(seed);
         Trainer trainer1 = new Trainer(name1, PokemonFactory.loadAvailablePokemons());
         Trainer trainer2 = new Trainer(name2, PokemonFactory.loadAvailablePokemons());
+        HistoryData history = new HistoryData();
         // asi conseguimos los equipos
         trainer1.randomTeam(rand);
         trainer2.randomTeam(rand);
@@ -54,16 +57,20 @@ public class Save implements Serializable {
             Pokemon pokemon2 = trainer2.getTeamArray()[turnPair.second];
             boolean turn = pokemon1.getSpeed() >= pokemon2.getSpeed();
             while(pokemon1.isAlive() && pokemon2.isAlive() && iteratorAttack.hasNext()){
+                    byte attack = iteratorAttack.next();
+                    String message = "";
                     if(turn){
-                        pokemon1.makeDamage(pokemon2, pokemon1.getAttacks()[iteratorAttack.next()]);
+                        int damage = pokemon1.makeDamage(pokemon2, pokemon1.getAttacks()[attack]);
+                        message = String.format("%s realizo %s hacia %s con un daño de %d\n",trainer1.getNameTrainer(), pokemon1.getAttacks()[attack].getName(), pokemon2.getName(), damage);
                     } else {
-                        pokemon2.makeDamage(pokemon1, pokemon2.getAttacks()[iteratorAttack.next()]);
+                        int damage = pokemon2.makeDamage(pokemon1, pokemon2.getAttacks()[attack]);
+                        message = String.format("%s realizo %s hacia %s con un daño de %d\n",trainer2.getNameTrainer(), pokemon2.getAttacks()[attack].getName(), pokemon1.getName(), damage);
                     }
+                history.setPila(message);
                     turn = !turn;
                 }
-            }
-
-        return new Triple<Trainer, Trainer, Random>(trainer1, trainer2, rand);
+        }
+        return new ControllerBattle(trainer1,trainer2,rand,this, history);
     }
 
     public static Save loadSave(File saveFile) throws IOException, FileNotFoundException, ClassNotFoundException {
