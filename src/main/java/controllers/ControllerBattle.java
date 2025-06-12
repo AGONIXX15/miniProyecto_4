@@ -125,4 +125,8 @@ public class ControllerBattle {
     public Pair<LinkedList<Integer>[], LinkedList<Integer>[]> getDamageTrainers(){
         return save.simulationDamage();
     }
+
+    public Save getSave(){
+        return this.save;
+    }
 }

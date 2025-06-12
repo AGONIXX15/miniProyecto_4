@@ -30,6 +30,10 @@ public class Save implements Serializable {
         return seed;
     }
 
+    public LinkedList<Pair<Byte, Byte>> getTurns(){
+        return turns;
+    }
+
     public void saveTurn(Pair<Byte, Byte> turnPair) {
         this.turns.add(turnPair);
     }
