@@ -3,8 +3,8 @@ package view.battle.gui;
 import battle.BattleTrainer;
 import controllers.ControllerBattle;
 import exceptions.NotInBattleException;
+import view.battle.gui.components.SaveViewGui;
 import models.pokemon.Pokemon;
-import models.datos.Save;
 import utils.Pokedex;
 import utils.ReproduceSound;
 import utils.CustomFont;
@@ -12,8 +12,8 @@ import view.ViewBattle;
 import view.battle.gui.components.*;
 import utils.Pair;
 
+
 import javax.imageio.ImageIO;
-import java.io.File;
 import java.net.URL;
 import java.io.IOException;
 
@@ -118,28 +118,9 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
         loadGame.setBounds(1100,400,100,100);
         mainPanel.add(loadGame, Integer.valueOf(1));
         loadGame.addActionListener(e -> {
-            JFileChooser chooser = new JFileChooser();
-            chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-            int option = chooser.showOpenDialog(null);
-            if(option == JFileChooser.APPROVE_OPTION) {
-                File file = chooser.getSelectedFile();
-                if (file.exists()) {
-
-                    try {
-                        Save save = Save.loadSave(file);
-                        ControllerBattle controller = save.getControllerBattle();
-                        BattlePokemonGUI view = new BattlePokemonGUI(controller);
-                        controller.setViewBattle(view);
-                        sound.stopSound();
-                        dispose();
-                        controller.startBattle();
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    } catch (ClassNotFoundException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
+            if(SaveViewGui.load()){
+                dispose();
+                sound.stopSound();
             }
         });
 
@@ -148,42 +129,7 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
         saveGame.setVisible(false);
         mainPanel.add(saveGame, Integer.valueOf(1));
         saveGame.addActionListener(event -> {
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Guardar objeto Persona (serializado)");
-
-            int userSelection = fileChooser.showSaveDialog(null);
-
-            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                File file = fileChooser.getSelectedFile();
-
-                // Añadir extensión .ser si no la tiene (convención para serializados)
-                if (!file.getName().toLowerCase().endsWith(".ser")) {
-                    file = new File(file.getAbsolutePath() + ".ser");
-                }
-
-                // Confirmar sobrescritura
-                if (file.exists()) {
-                    int respuesta = JOptionPane.showConfirmDialog(null,
-                            "El archivo ya existe. ¿Quieres sobrescribirlo?",
-                            "Confirmar sobrescritura",
-                            JOptionPane.YES_NO_OPTION);
-
-                    if (respuesta != JOptionPane.YES_OPTION) {
-                        System.out.println("Guardado cancelado.");
-                        return;
-                    }
-                }
-
-                // Guardar objeto serializado
-                try {
-                    controllerBattle.saveGame(file);
-                    JOptionPane.showMessageDialog(null, "Objeto guardado serializado correctamente.");
-                } catch (IOException e) {
-                    JOptionPane.showMessageDialog(null, "Error al guardar archivo: " + e.getMessage());
-                } catch (ClassNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
+            SaveViewGui.save(controllerBattle);
         });
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -6,6 +6,7 @@ import models.pokemon.Pokemon;
 import models.pokemon.PokemonFactory;
 import utils.Pair;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -122,6 +123,7 @@ public class Save implements Serializable {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,"El archivo no es compatible");
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
