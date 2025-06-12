@@ -66,8 +66,10 @@ public class SaveViewGui {
                     controller.startBattle();
                     return true;
                 } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "error al cargar el archivo, el archivo escogido no era perteneciente al juego: " + ex.getMessage());
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                     throw new RuntimeException(ex);
                 }
             }
