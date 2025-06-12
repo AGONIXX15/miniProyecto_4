@@ -6,6 +6,8 @@ import models.Pokemon;
 
 import javax.swing.*;
 import java.awt.*;
+import view.battle.gui.StatisticsGraph;
+
 
 public class ShowHistory {
 
@@ -41,9 +43,24 @@ public class ShowHistory {
         JButton cerrar = new JButton("Cerrar");
         cerrar.addActionListener(e -> System.exit(0));
 
+        //boton para mostrar grafica de estatisticas
+        JButton Graph = new JButton("Mostrar Estadisticas");
+
+        Graph.addActionListener(e -> {
+            StatisticsGraph statsGraph = new StatisticsGraph();
+
+            JFrame statsFrame = new JFrame("Gráfica de Estadísticas");
+            statsFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            statsFrame.setSize(600, 400);
+            statsFrame.setLocationRelativeTo(null);
+            statsFrame.add(statsGraph);
+            statsFrame.setVisible(true);
+        });
+
         // Panel inferior para el botón
         JPanel bottomPanel = new JPanel();
         bottomPanel.add(cerrar);
+        bottomPanel.add(Graph);
 
         // Añadir componentes al frame
         frame.add(scrollPane, BorderLayout.CENTER);
