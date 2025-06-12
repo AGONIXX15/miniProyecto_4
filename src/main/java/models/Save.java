@@ -40,7 +40,6 @@ public class Save implements Serializable {
 
 
     public ControllerBattle getControllerBattle() {
-        // 1. jalar los entrenadores con sus pokemones
         Random rand = new Random(seed);
         Trainer trainer1 = new Trainer(name1, PokemonFactory.loadAvailablePokemons());
         Trainer trainer2 = new Trainer(name2, PokemonFactory.loadAvailablePokemons());
@@ -71,6 +70,39 @@ public class Save implements Serializable {
                 }
         }
         return new ControllerBattle(trainer1,trainer2,rand,this, history);
+    }
+
+    public Pair<LinkedList<Integer>[], LinkedList<Integer>[]> simulationDamage(){
+        LinkedList<Integer>[] damageTrainer1 = new LinkedList[3];
+        LinkedList<Integer>[] damageTrainer2 = new LinkedList[3];
+
+        Random rand = new Random(seed);
+        Trainer trainer1 = new Trainer(name1, PokemonFactory.loadAvailablePokemons());
+        Trainer trainer2 = new Trainer(name2, PokemonFactory.loadAvailablePokemons());
+        // asi conseguimos los equipos
+        trainer1.randomTeam(rand);
+        trainer2.randomTeam(rand);
+        // simular el combate
+        ListIterator<Byte> iteratorAttack = attacks.listIterator();
+        int index = -1;
+        for(Pair<Byte, Byte> turnPair: turns){
+            Pokemon pokemon1 = trainer1.getTeamArray()[turnPair.first];
+            Pokemon pokemon2 = trainer2.getTeamArray()[turnPair.second];
+            boolean turn = pokemon1.getSpeed() >= pokemon2.getSpeed();
+            index++;
+            while(pokemon1.isAlive() && pokemon2.isAlive() && iteratorAttack.hasNext()){
+                byte attack = iteratorAttack.next();
+                if(turn){
+                    int damage = pokemon1.makeDamage(pokemon2, pokemon1.getAttacks()[attack]);
+                    damageTrainer1[index].push(damage);
+                } else {
+                    int damage = pokemon2.makeDamage(pokemon1, pokemon2.getAttacks()[attack]);
+                    damageTrainer2[index].push(damage);
+                }
+                turn = !turn;
+            }
+        }
+        return new Pair<LinkedList<Integer>[], LinkedList<Integer>[]>(damageTrainer1, damageTrainer2);
     }
 
     public static Save loadSave(File saveFile) throws IOException, FileNotFoundException, ClassNotFoundException {

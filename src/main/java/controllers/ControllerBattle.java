@@ -11,6 +11,7 @@ import view.utils.Pair;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class ControllerBattle {
@@ -119,5 +120,9 @@ public class ControllerBattle {
 
     public HistoryData getHistory(){
         return combat.getHistory();
+    }
+
+    public Pair<LinkedList<Integer>[], LinkedList<Integer>[]> getDamageTrainers(){
+        return save.simulationDamage();
     }
 }

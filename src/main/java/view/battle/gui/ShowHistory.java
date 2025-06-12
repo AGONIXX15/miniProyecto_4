@@ -47,8 +47,7 @@ public class ShowHistory {
         JButton Graph = new JButton("Mostrar Estadisticas");
 
         Graph.addActionListener(e -> {
-            StatisticsGraph statsGraph = new StatisticsGraph();
-
+            StatisticsGraph statsGraph = new StatisticsGraph(controller.getDamageTrainers());
         });
 
         // Panel inferior para el botón
