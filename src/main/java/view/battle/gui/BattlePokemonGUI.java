@@ -369,8 +369,8 @@ public class BattlePokemonGUI extends JFrame implements ViewBattle {
             if (labelPokemon1 != null) mainPanel.remove(labelPokemon1);
             if (labelPokemon2 != null) mainPanel.remove(labelPokemon2);
 
-            labelPokemon1 = createPokemonImageLabel(Pokedex.getUrlByName(controllerBattle.getPokemon1().getName()), 1050, 200, 200, 200); // lado izquierdo
-            labelPokemon2 = createPokemonImageLabel(Pokedex.getUrlByName(controllerBattle.getPokemon2().getName()), 350, 400, 200, 200); // lado derecho
+            labelPokemon1 = createPokemonImageLabel(Pokedex.getUrlByNameBattle(controllerBattle.getPokemon1().getName()), 1050, 200, 200, 200); // lado izquierdo
+            labelPokemon2 = createPokemonImageLabel(Pokedex.getUrlByNameBattle(controllerBattle.getPokemon2().getName()), 350, 400, 200, 200); // lado derecho
 
             mainPanel.add(labelPokemon1, Integer.valueOf(2));
             mainPanel.add(labelPokemon2, Integer.valueOf(2));

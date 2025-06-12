@@ -43,4 +43,13 @@ public class Pokedex {
         }
         throw  new IllegalArgumentException("el nombre no se encuentra en la pokedex");
     }
+
+    public static String getUrlByNameBattle(String pokemonName){
+        if(pokedex.containsKey(pokemonName)){
+            int id = pokedex.get(pokemonName);
+            String imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + id + ".png";
+            return imageUrl;
+        }
+        throw  new IllegalArgumentException("el nombre no se encuentra en la pokedex");
+    }
 }
