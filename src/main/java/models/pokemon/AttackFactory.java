@@ -1,4 +1,4 @@
-package models;
+package models.pokemon;
 
 // implementacion de constantes de ataques
 public class AttackFactory {

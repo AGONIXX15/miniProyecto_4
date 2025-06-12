@@ -1,4 +1,4 @@
-package models;
+package models.pokemon;
 
 public enum TypePokemon {
     ELECTRICO(new String[]{"AGUA","VOLADOR"}),

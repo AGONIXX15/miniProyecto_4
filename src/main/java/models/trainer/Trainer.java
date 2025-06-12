@@ -1,4 +1,6 @@
-package models;
+package models.trainer;
+
+import models.pokemon.Pokemon;
 
 import java.util.Arrays;
 import java.util.Random;

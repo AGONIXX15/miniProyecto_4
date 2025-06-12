@@ -1,9 +1,10 @@
-package view.battle.gui;
+package view.battle.gui.components;
 
 import exceptions.PokemonWeakenedException;
-import models.Trainer;
+import models.trainer.Trainer;
 import utils.CustomFont;
-import view.utils.Pokedex;
+import view.battle.gui.BattlePokemonGUI;
+import utils.Pokedex;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

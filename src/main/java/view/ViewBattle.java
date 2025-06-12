@@ -1,4 +1,4 @@
-package view.battle;
+package view;
 
 public interface ViewBattle {
     void start();

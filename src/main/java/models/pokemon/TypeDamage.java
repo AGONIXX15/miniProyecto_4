@@ -1,4 +1,4 @@
-package models;
+package models.pokemon;
 
 public enum TypeDamage {
     FISICO,

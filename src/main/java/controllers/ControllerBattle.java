@@ -1,16 +1,17 @@
 package controllers;
 
-import datos.HistoryData;
+import models.datos.HistoryData;
 import exceptions.NotInBattleException;
-import models.Pokemon;
-import models.Save;
-import models.Trainer;
-import view.battle.ViewBattle;
-import models.Combat;
-import view.utils.Pair;
+import models.pokemon.Pokemon;
+import models.datos.Save;
+import models.trainer.Trainer;
+import view.ViewBattle;
+import models.combat.Combat;
+import utils.Pair;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class ControllerBattle {
@@ -30,11 +31,12 @@ public class ControllerBattle {
         save = new Save(trainer1.getNameTrainer(), trainer2.getNameTrainer(), pairRandom.second);
     }
 
-    public ControllerBattle(Trainer trainer1, Trainer trainer2,Random rand, Save save) {
+    public ControllerBattle(Trainer trainer1, Trainer trainer2,Random rand, Save save, HistoryData history) {
         this.trainer1 = trainer1;
         this.trainer2 = trainer2;
         this.random = rand;
         this.save = save;
+        this.history = history;
     }
 
     public void setViewBattle(ViewBattle viewBattle) {
@@ -118,5 +120,13 @@ public class ControllerBattle {
 
     public HistoryData getHistory(){
         return combat.getHistory();
+    }
+
+    public Pair<LinkedList<Integer>[], LinkedList<Integer>[]> getDamageTrainers(){
+        return save.simulationDamage();
+    }
+
+    public Save getSave(){
+        return this.save;
     }
 }

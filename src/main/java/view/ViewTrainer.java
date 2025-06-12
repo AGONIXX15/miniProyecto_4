@@ -2,7 +2,7 @@ package view;
 
 import controllers.ControllerBattle;
 import controllers.ControllerTrainer;
-import models.Pokemon;
+import models.pokemon.Pokemon;
 import utils.ReproduceSound;
 import utils.CustomFont;
 
@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import utils.RoundedButton;
-import view.utils.Pokedex;
+import utils.Pokedex;
 import view.battle.gui.BattlePokemonGUI;
 
 /**

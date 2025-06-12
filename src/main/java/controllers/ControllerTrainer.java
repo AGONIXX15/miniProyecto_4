@@ -1,9 +1,9 @@
 package controllers;
 
-import models.PokemonFactory;
-import models.Trainer;
+import models.pokemon.PokemonFactory;
+import models.trainer.Trainer;
 import view.ViewTrainerInterface;
-import view.utils.Pair;
+import utils.Pair;
 
 import java.time.Instant;
 import java.util.Random;

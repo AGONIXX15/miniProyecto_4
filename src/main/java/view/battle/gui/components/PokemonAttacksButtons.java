@@ -1,8 +1,8 @@
-package view.battle.gui;
-import models.Attack;
-import models.AttackFactory;
+package view.battle.gui.components;
+import models.pokemon.Attack;
 import utils.CustomFont;
 import utils.RoundedButton;
+import view.battle.gui.BattlePokemonGUI;
 
 import javax.swing.*;
 import java.awt.*;

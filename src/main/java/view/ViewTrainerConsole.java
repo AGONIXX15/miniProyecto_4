@@ -2,7 +2,7 @@ package view;
 
 import controllers.ControllerBattle;
 import controllers.ControllerTrainer;
-import models.Trainer;
+import models.trainer.Trainer;
 import view.battle.console.BattlePokemonConsole;
 import view.battle.console.Colors;
 

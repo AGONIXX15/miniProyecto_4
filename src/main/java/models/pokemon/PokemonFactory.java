@@ -1,4 +1,4 @@
-package models;
+package models.pokemon;
 
 
 // se encarga de crear los pokemones que pueden ser utilizados

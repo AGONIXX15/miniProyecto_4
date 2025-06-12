@@ -1,4 +1,4 @@
-package view.battle.gui;
+package view.battle.gui.components;
 
 import utils.CustomFont;
 
