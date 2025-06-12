@@ -35,5 +35,12 @@ public class Pokedex {
             Map.entry("Exeggcute", 102)
     );
 
-
+    public static String getUrlByName(String pokemonName){
+        if(pokedex.containsKey(pokemonName)){
+            int id = pokedex.get(pokemonName);
+            String imageUrl = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + id + ".png";
+            return imageUrl;
+        }
+        throw  new IllegalArgumentException("el nombre no se encuentra en la pokedex");
+    }
 }
