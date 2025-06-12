@@ -73,8 +73,9 @@ public class Save implements Serializable {
     }
 
     public Pair<LinkedList<Integer>[], LinkedList<Integer>[]> simulationDamage(){
-        LinkedList<Integer>[] damageTrainer1 = new LinkedList[3];
-        LinkedList<Integer>[] damageTrainer2 = new LinkedList[3];
+        int n = turns.size();
+        LinkedList<Integer>[] damageTrainer1 = new LinkedList[n];
+        LinkedList<Integer>[] damageTrainer2 = new LinkedList[n];
 
         Random rand = new Random(seed);
         Trainer trainer1 = new Trainer(name1, PokemonFactory.loadAvailablePokemons());

@@ -17,9 +17,6 @@ public class StatisticsGraph extends JFrame {
     public StatisticsGraph(Pair<LinkedList<Integer>[], LinkedList<Integer>[]> damageTrainers) {
         LinkedList<Integer> []damageTrainer1 = damageTrainers.first;
         LinkedList<Integer> []damageTrainer2 = damageTrainers.second;
-        if(damageTrainer1.length != 3 || damageTrainer2.length != 3) {
-            throw new IllegalArgumentException("the size of damage trainers must be 3xn");
-        }
         setTitle("Daño por combate");
         setSize(1200, 800);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -29,7 +26,7 @@ public class StatisticsGraph extends JFrame {
 
         // Datos de prueba
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < damageTrainer2.length; ++i) {
             graphsPanel.add(crearGrafica(damageTrainer1[i], damageTrainer2[i], "Combate " + (i + 1)));
         }
 
